@@ -13,293 +13,204 @@ set "C_RST=%ESC%[0m"
 :menu
 cls
 echo.
-echo  %C_BLD%%C_CYA==========================================%C_RST%
-echo  %C_BLD%%C_CYA  TAO VAN BAN AI                             %C_RST%
-echo  %C_BLD%%C_CYA  DocGenerator - AI Document Builder        %C_RST%
-echo  %C_BLD%%C_CYA==========================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  TAO VAN BAN AI - DocGenerator                          %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_GRN%[1]%C_RST%  Tong quan - Generate la gi?
-echo  %C_GRN%[2]%C_RST%  19 Loai van ban ho tro
-echo  %C_GRN%[3]%C_RST%  Quy trinh Q&A
-echo  %C_GRN%[4]%C_RST%  Dinh dang output
-echo  %C_GRN%[5]%C_RST%  Cach dung
-echo  %C_GRN%[6]%C_RST%  Vi du thuc te
-echo  %C_GRN%[7]%C_RST%  Meo va loi
+echo %C_GRY%  Chon muc de xem:%C_RST%
 echo.
-echo  %C_YLW%[0]%C_RST%  Quay lai
+echo %C_YLW%  1.%C_RST% Tong quan - Generate la gi?
+echo %C_YLW%  2.%C_RST% Cach dung - CLI va Menu
+echo %C_YLW%  3.%C_RST% 19 Loai van ban ho tro
+echo %C_YLW%  4.%C_RST% Dinh dang output
+echo %C_YLW%  5.%C_RST% Xu ly loi
+echo %C_RED%  0.%C_RST% Quay lai
 echo.
-set /p "choice=  %C_CYA%Chon: %C_RST%"
+set /p SUB="%C_YLW%Chon: %C_RST%"
 
-if "%choice%"=="1" goto page1
-if "%choice%"=="2" goto page2
-if "%choice%"=="3" goto page3
-if "%choice%"=="4" goto page4
-if "%choice%"=="5" goto page5
-if "%choice%"=="6" goto page6
-if "%choice%"=="7" goto page7
-if "%choice%"=="0" goto end
-goto menu
+if "%SUB%"=="1" goto page1
+if "%SUB%"=="2" goto page2
+if "%SUB%"=="3" goto page3
+if "%SUB%"=="4" goto page4
+if "%SUB%"=="5" goto page5
+if "%SUB%"=="0" exit /b
+goto :menu
 
 :page1
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  TONG QUAN - GENERATE LA GI?                %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  TONG QUAN - GENERATE LA GI?                           %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_BLD%DocGenerator%C_RST% tao van ban Word hoan chinh
-echo  su dung AI. Quy trinh hoi dap: AI dat cau hoi,
-echo  ban tra loi, AI viet noi dung theo cau tra loi.
+echo %C_BLD%DocGenerator%C_RST% tao van ban Word hoan chinh
+echo su dung AI. Quy trinh hoi dap: AI dat cau hoi,
+echo ban tra loi, AI viet noi dung theo cau tra loi.
 echo.
-echo  %C_BLD%Nguyen ly hoat dong:%C_RST%
-echo  - Chon loai van ban can tao
-echo  - AI dat cac cau hoi lien quan
-echo  - Ban tra loi tung cau hoi
-echo  - AI viet noi dung dua tren tra loi
-echo  - Dinh dang van ban theo mau
-echo  - Luu thanh file .docx
+echo %C_BLD%Source code:%C_RST% src/core/doc_generator.py
+echo - ask_ai_questions(): AI tao 4-8 cau hoi
+echo - generate_document_content(): AI viet noi dung
+echo - save_as_docx(): luu thanh file .docx
+echo - _call_ai(): goi API theo provider
 echo.
-echo  %C_BLD%Uu diem:%C_RST%
-echo  - Tao van ban nhanh, tiet kiem thoi gian
-echo  - Dinh dang chuan, chinh xac
-echo  - Phu hop van ban Viet Nam
-echo  - 19 loai van ban pho bien
+echo %C_BLD%Nguyen ly hoat dong:%C_RST%
+echo 1. Chon loai van ban can tao
+echo 2. GUI provider cau hoi: "Hoi thong tin de tao loai nay"
+echo 3. Nhan 4-8 cau hoi tu AI (JSON format)
+echo 4. Ban tra loi tung cau hoi
+echo 5. GUI cau tra loi cho AI de viet noi dung
+echo 6. Nhan noi dung markdown tu AI
+echo 7. Parse markdown: # Title, ## Heading, plain text
+echo 8. Tao file .docx voi dinh dang chuan
 echo.
-echo  %C_BLD%Yeu cau:%C_RST%
-echo  - Python 3.8+
-echo  - AI provider da cai dat
-echo  - API key hop le
+echo %C_BLD%Uu diem:%C_RST%
+echo   - Tao van ban nhanh, tiet kiem thoi gian
+echo   - Dinh dang chuan, chinh xac
+echo   - Phu hop van ban Viet Nam
+echo   - 19 loai van ban pho bien
 echo.
 pause
-goto menu
+goto :menu
 
 :page2
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  19 LOAI VAN BAN HO TRO                     %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  CACH DUNG - CLI VA MENU                               %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_GRN%Van ban hanh chinh:%C_RST%
-echo   1.  Don xin phep
-echo   2.  Don xin viec
-echo   3.  Thu ming
-echo   4.  Cong van
-echo   5.  Quyet dinh
-echo   6.  Thong bao
+echo %C_BLD%1. Lenh CLI:%C_RST%
+echo   python src/main.py generate
+echo   Mo giao dien tuong tac, chon loai van ban
 echo.
-echo  %C_YLW%Van ban hoc thuat:%C_RST%
-echo   7.  Bao cao
-echo   8.  De cuong
-echo   9.  Luan van
-echo  10.  Phuc trinh
-echo  11.  Bieu mau
+echo %C_BLD%2. Chi dinh output:%C_RST%
+echo   python src/main.py generate -o report.docx
 echo.
-echo  %C_CYA%Van ban cong ty:%C_RST%
-echo  12.  Bien ban hop
-echo  13.  Phieu bien ban
-echo  14.  Phieu giao viec
-echo  15.  Ho so xin viec
-echo  16.  Hoc bong
+echo %C_BLD%3. Qua Menu:%C_RST%
+echo   Mo run.bat -> Menu 3 -> Chon Tao van ban AI
+echo   Lam theo huong dan
 echo.
-echo  %C_GRN%Khac:%C_RST%
-echo  17.  Bai viet
-echo  18.  Bao cao tong hop
-echo  19.  Van ban tuy chinh
+echo %C_BLD%4. Quy trinh:%C_RST%
+echo   - Chon loai: 1-19
+echo   - Tra loi 4-8 cau hoi
+echo   - Doi AI viet noi dung
+echo   - Kiem tra ket qua
+echo   - Luu file
+echo.
+echo %C_BLD%5. File output:%C_RST%
+echo   Mac dinh: outputs/generated_{loai}.docx
+echo   Ten file theo loai van ban
+echo   Co the chi dinh ten khac voi -o
+echo.
+echo %C_BLD%6. Yeu cau:%C_RST%
+echo   - AI provider da cai dat
+echo   - API key hop le
+echo   - Internet ket noi
 echo.
 pause
-goto menu
+goto :menu
 
 :page3
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  QUY TRINH Q&A                              %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  19 LOAI VAN BAN HO TRO                                 %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_GRN%Buoc 1%C_RST% - Chon loai van ban
-echo  - Hien thi danh sach 19 loai
-echo  - Ban chon loai can tao
-echo  - AI hieu yeu cau loai do
+echo %C_GRN%Van ban hanh chinh:%CRST%
+echo    1. Don xin phep        6. Thong bao
+echo    2. Don xin viec
+echo    3. Thu ming
+echo    4. Cong van
+echo    5. Quyet dinh
 echo.
-echo  %C_GRN%Buoc 2%C_RST% - AI dat cau hoi
-echo  - AI hoi ve noi dung can thiet
-echo  - Moi loai co cau hoi khac nhau
-echo  - Vi du: ten nguoi gui, ten nguoi nhan...
+echo %C_YLW%Van ban hoc thuat:%CRST%
+echo    7. Bao cao            11. Bieu mau
+echo    8. De cuong
+echo    9. Luan van
+echo   10. Phuc trinh
 echo.
-echo  %C_GRN%Buoc 3%C_RST% - Ban tra loi
-echo  - Nhap tung cau hoi
-echo  - Cang chi tiet, noi dung cang tot
-echo  - Co the bo qua cau hoi khong can
+echo %C_CYA%Van ban cong ty:%CRST%
+echo   12. Bien ban hop       16. Ho so xin viec
+echo   13. Phieu bien ban     17. Hoc bong
+echo   14. Phieu giao viec
+echo   15. Bai viet
 echo.
-echo  %C_GRN%Buoc 4%C_RST% - AI viet noi dung
-echo  - Dua tren cau tra loi
-echo  - Tao noi dung van ban
-echo  - Dinh dang theo loai van ban
-echo  - Them heading, title, bold...
-echo.
-echo  %C_GRN%Buoc 5%C_RST% - Luu file
-echo  - Tao file .docx
-echo  - Dinh dang TNR 13, title 16 bold center
-echo  - Heading 14 bold
-echo  - Luu vao outputs/
+echo %C_GRN%Khac:%CRST%
+echo   18. Bao cao tong hop
+echo   19. Van ban tuy chinh
 echo.
 pause
-goto menu
+goto :menu
 
 :page4
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  DINH DANG OUTPUT                           %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  DINH DANG OUTPUT                                       %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  File output duoc dinh dang chuan:
+echo File output duoc dinh dang chuan bang python-docx:
 echo.
-echo  %C_BLD%Van ban chinh:%C_RST%
-echo  - Font: Times New Roman
-echo  - Size: 13
-echo  - Can le: justify
-echo  - Line spacing: 1.5
+echo %C_BLD%Van ban chinh - Normal:%C_RST%
+echo   Font: Times New Roman, Size: 13
+echo   Can le: justify, Line spacing: 1.5
+echo   Space before: 0pt, Space after: 6pt
 echo.
-echo  %C_BLD%Tieu de chinh - Title:%C_RST%
-echo  - Font: Times New Roman
-echo  - Size: 16
-echo  - Bold: co
-echo  - Can le: center
-echo  - Space after: 24pt
+echo %C_BLD%Tieu de chinh - Title:%C_RST%
+echo   Font: Times New Roman, Size: 16
+echo   Bold: co, Can le: center
+echo   Space before: 12pt, Space after: 12pt
 echo.
-echo  %C_BLD%Tieu de muc - Heading:%C_RST%
-echo  - Font: Times New Roman
-echo  - Size: 14
-echo  - Bold: co
-echo  - Space before: 12pt
-echo  - Space after: 6pt
+echo %C_BLD%Tieu de muc - Heading 2:%C_RST%
+echo   Font: Times New Roman, Size: 14
+echo   Bold: co, Can le: left
+echo   Space before: 12pt, Space after: 6pt
 echo.
-echo  %C_BLD%Dong co trang:%C_RST%
-echo  - Top: 2cm
-echo  - Bottom: 2cm
-echo  - Left: 3cm
-echo  - Right: 2cm
+echo %C_BLD%Heading 3:%C_RST%
+echo   Font: Times New Roman, Size: 13
+echo   Bold: co, Can le: left
+echo   Space before: 6pt, Space after: 3pt
 echo.
-echo  %C_BLD%Luu y:%C_RST% Dinh dang co the chinh sua
-echo  sau khi tao xong bang FormatEngine.
+echo %C_BLD%Bullet list:%C_RST%
+echo   Style: List Bullet
+echo   Font: Times New Roman, Size: 13
+echo.
+echo %C_BLD%Luu y:%C_RST% Dinh dang co the chinh sua
+echo sau khi tao xong bang FormatEngine.
 echo.
 pause
-goto menu
+goto :menu
 
 :page5
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  CACH DUNG                                  %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  XU LY LOI                                              %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_BLD%1. Lenh CLI:%C_RST%
-echo  python src/main.py generate
-echo  - Mo giao dien tuong tac
-echo  - Chon loai van ban
-echo  - Tra loi cau hoi
-echo  - Tao van ban
+echo %C_RED%Loi 1: No active provider%CRST%
+echo   Nguyen nhan: Chua cai dat AI provider
+echo   Giai phap: python src/main.py settings
+echo   Them provider voi API key hop le
 echo.
-echo  %C_BLD%2. Qua Menu:%C_RST%
-echo  - Mo run.bat -> Menu 3
-echo  - Chon Tao van ban AI
-echo  - Lam theo huong dan
+echo %C_RED%Loi 2: API key invalid%CRST%
+echo   Nguyen nhan: Key sai hoac het han
+echo   Giai phap: Cap nhat key moi qua settings
 echo.
-echo  %C_BLD%3. Quy trinh:%C_RST%
-echo  - Chon loai: 1-19
-echo  - Tra loi 5-10 cau hoi
-echo  - Doi AI viet noi dung
-echo  - Kiem tra ket qua
-echo  - Luu file
+echo %C_RED%Loi 3: Output directory not found%CRST%
+echo   Nguyen nhan: Thu muc outputs/ khong ton tai
+echo   Giai phap: Tao thu muc truoc hoac chay init
 echo.
-echo  %C_BLD%4. File output:%C_RST%
-echo  - Mac dinh: outputs/generated_*.docx
-echo  - Ten file theo loai van ban
-echo  - Co the chi dinh ten khac
+echo %C_RED%Loi 4: Rate limited%CRST%
+echo   Nguyen nhan: API bi gioi han
+echo   Giai phap: Doi 1 phut, thu lai
+echo   Dung provider khac
 echo.
-pause
-goto menu
-
-:page6
-cls
-echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  VI DU THUC TE                              %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo.
-echo  %C_BLD%Vi du 1: Don xin phep%C_RST%
-echo  - Loai: Don xin phep
-echo  - Cau hoi: Ten, ly do, thoi gian
-echo  - Tra loi: Nguyen Van A, phep ca nhan, 3 ngay
-echo  - Ket qua: Don xin phep chinh thuc
-echo.
-echo  %C_BLD%Vi du 2: Bao cao thuc tap%C_RST%
-echo  - Loai: Bao cao
-echo  - Cau hoi: Ten, cong ty, thoi gian, noi dung
-echo  - Tra loi: Chi tiet ve thuc tap
-echo  - Ket qua: Bao cao 10+ trang
-echo.
-echo  %C_BLD%Vi du 3: Thu ming%n%n%C_RST%
-echo  - Loai: Thu ming
-echo  - Cau hoi: Ten, dia chi, noi dung
-echo  - Tra loi: Thong tin nguoi gui/nhan
-echo  - Ket qua: Thu ming chuan format
-echo.
-echo  %C_BLD%Vi du 4: Bien ban hop%C_RST%
-echo  - Loai: Bien ban hop
-echo  - Cau hoi: Thoi gian, dia diem, nguoi tham du
-echo  - Tra loi: Thong tin cuoc hop
-echo  - Ket qua: Bien ban chinh thuc
+echo %C_RED%Loi 5: JSON parse error%CRST%
+echo   Nguyen nhan: AI tra loi khong dung JSON
+echo   Giai phap: Thu lai, AI co the tra loi tot hon
+echo   Kiem tra ket noi mang on dinh
 echo.
 pause
-goto menu
-
-:page7
-cls
-echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  MEO VA LOI                                 %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo.
-echo  %C_BLD%Meo 1: Tra loi chi tiet%C_RST%
-echo  - Cang nhieu thong tin, noi dung cang tot
-echo  - Dung cau tra loi dai, mo ta
-echo  - Tranh tra loi ngan nguoi
-echo.
-echo  %C_BLD%Meo 2: Chon dung loai%C_RST%
-echo  - Chon loai phu hop voi yeu cau
-echo  - Dung don xin phep cho don xin phep
-echo  - Dung bao cao cho bao cao
-echo.
-echo  %C_BLD%Meo 3: Chinh sua sau khi tao%C_RST%
-echo  - Tao xong co the chinh sua
-echo  - Dung format de chinh dinh dang
-echo  - Them/sua noi dung can thiet
-echo.
-echo  %C_RED%Loi pho bien:%C_RST%
-echo.
-echo  %C_RED%No active provider%C_RST%
-echo  - Chua cai dat AI provider
-echo  - Cai dat provider truoc khi generate
-echo.
-echo  %C_RED%API key invalid%C_RST%
-echo  - Key sai hoac het han
-echo  - Cap nhat key moi
-echo.
-echo  %C_RED%Output directory not found%C_RST%
-echo  - Thu muc outputs/ khong ton tai
-echo  - Tao thu muc truoc khi generate
-echo.
-echo  %C_RED%Rate limited%C_RST%
-echo  - API bi gioi han
-echo  - Doi 1 phut, thu lai
-echo  - Dung provider khac
-echo.
-pause
-goto menu
-
-:end
-endlocal
-exit /b 0
+goto :menu

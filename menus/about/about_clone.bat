@@ -13,277 +13,212 @@ set "C_RST=%ESC%[0m"
 :menu
 cls
 echo.
-echo  %C_BLD%%C_CYA==========================================%C_RST%
-echo  %C_BLD%%C_CYA  CLONE + CLONE-PREVIEW                     %C_RST%
-echo  %C_BLD%%C_CYA  Clone - Sao chep dinh dang                 %C_RST%
-echo  %C_BLD%%C_CYA==========================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  CLONE DINH DANG TU TEMPLATE                            %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_GRN%[1]%C_RST%  Tong quan - Clone la gi?
-echo  %C_GRN%[2]%C_RST%  Clone vs Clone-preview
-echo  %C_GRN%[3]%C_RST%  Quy trinh hoat dong
-echo  %C_GRN%[4]%C_RST%  Cach dung
-echo  %C_GRN%[5]%C_RST%  Tinh nang ho tro
-echo  %C_GRN%[6]%C_RST%  Vi du thuc te
-echo  %C_GRN%[7]%C_RST%  Xu ly loi
+echo %C_GRY%  Chon muc de xem:%C_RST%
 echo.
-echo  %C_YLW%[0]%C_RST%  Quay lai
+echo %C_YLW%  1.%C_RST% Tong quan - Clone la gi?
+echo %C_YLW%  2.%C_RST% Clone vs Clone-preview
+echo %C_YLW%  3.%C_RST% Quy trinh hoat dong
+echo %C_YLW%  4.%C_RST% Cach dung - CLI va Menu
+echo %C_YLW%  5.%C_RST% Xu ly loi
+echo %C_RED%  0.%C_RST% Quay lai
 echo.
-set /p "choice=  %C_CYA%Chon: %C_RST%"
+set /p SUB="%C_YLW%Chon: %C_RST%"
 
-if "%choice%"=="1" goto page1
-if "%choice%"=="2" goto page2
-if "%choice%"=="3" goto page3
-if "%choice%"=="4" goto page4
-if "%choice%"=="5" goto page5
-if "%choice%"=="6" goto page6
-if "%choice%"=="7" goto page7
-if "%choice%"=="0" goto end
-goto menu
+if "%SUB%"=="1" goto page1
+if "%SUB%"=="2" goto page2
+if "%SUB%"=="3" goto page3
+if "%SUB%"=="4" goto page4
+if "%SUB%"=="5" goto page5
+if "%SUB%"=="0" exit /b
+goto :menu
 
 :page1
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  TONG QUAN - CLONE LA GI?                   %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  TONG QUAN - CLONE LA GI?                               %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_BLD%CloneEngine%C_RST% sao chep toan bo dinh dang tu file
-echo  template sang file moi. Khong chi dinh dang van ban
-echo  ma con ca cau truc trang, header, footer...
+echo %C_BLD%CloneEngine%C_RST% sao chep toan bo dinh dang tu file
+echo template sang file moi. Khong chi dinh dang van ban
+echo ma con ca cau truc trang, header, footer, watermark...
 echo.
-echo  %C_BLD%Nguyen ly hoat dong:%C_RST%
-echo  - Su dung Microsoft Word COM - win32com
-echo  - Copy template thanh file moi
-echo  - Xoa noi dung file copy
-echo  - Dua noi dung file target vao
-echo  - Giu nguyen toan bo dinh dang
-echo  - Luu file output
+echo %C_BLD%Source code:%C_RST% src/core/cloner.py
+echo - Class CloneEngine: clone() va clone(preview_only=True)
+echo - Su dung win32com.client DispatchEx Word.Application
+echo - COM retry voi RPC_E_CALL_REJECTED, max 10 retries
 echo.
-echo  %C_BLD%Khac voi Format:%C_RST%
-echo  - Format: dinh dang van ban theo rules
-echo  - Clone: sao chep cau truc trang va template
-echo  - Clone ho tro nhieu tinh nang hon
-echo  - Can Microsoft Word cai dat
+echo %C_BLD%Nguyen ly hoat dong:%C_RST%
+echo 1. Copy template thanh file tam
+echo 2. Mo file tam, xoa toan bo noi dung
+echo   - Giu nguyen header, footer, style definitions
+echo 3. Mo file target, copy toan bo noi dung
+echo 4. Paste vao file tam voi PasteAndFormat (WD 16)
+echo 5. Luu file output
 echo.
-echo  %C_BLD%Yeu cau he thong:%C_RST%
-echo  - Microsoft Word da cai dat
-echo  - Python 3.8+
-echo  - win32com da cai
+echo %C_BLD%Khac voi Format:%C_RST%
+echo   Format: dinh dang van ban theo rules (python-docx)
+echo   Clone: sao chep cau truc trang va template (win32com)
+echo   Clone ho tro: section, page setup, watermark, TOC, columns
+echo.
+echo %C_BLD%Yeu cau he thong:%C_RST%
+echo   - Microsoft Word da cai dat
+echo   - Python 3.8+
+echo   - pywin32 da cai
 echo.
 pause
-goto menu
+goto :menu
 
 :page2
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  CLONE VS CLONE-PREVIEW                     %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  CLONE VS CLONE-PREVIEW                                %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_BLD%Clone%C_RST% - Sao chep hoan chinh
-echo  - Copy template + dung noi dung target
-echo  - Luu file output ngay lap tuc
-echo  - Khong mo Word de review
-echo  - Nhanh, phu hop xu ly hang loat
+echo %C_BLD%Clone%C_RST% - Sao chep hoan chinh
+echo   - Copy template + dung noi dung target
+echo   - Luu file output ngay lap tuc
+echo   - Khong mo Word de review
+echo   - Nhanh, phu hop xu ly hang loat
 echo.
-echo  %C_BLD%Clone-preview%C_RST% - Xem truoc truoc khi luu
-echo  - Copy template + dung noi dung target
-echo  - Mo Word de ban review
-echo  - Ban kiem tra, chinh sua neu can
-echo  - Luu thu cong khi hai long
-echo  - An toan, tranh sai sot
+echo %C_BLD%Clone-preview%C_RST% - Xem truoc truoc khi luu
+echo   - Copy template + dung noi dung target
+echo   - Mo Word de ban review
+echo   - Ban kiem tra, chinh sua neu can
+echo   - Luu thu cong khi hai long
+echo   - An toan, tranh sai sot
 echo.
-echo  %C_BLD%Khi nao dung nao:%C_RST%
-echo  - Clone: chac chan, khong can review
-echo  - Clone-preview: can kiem tra truoc
-echo  - Dung clone-preview lan dau
-echo  - Dung clone khi da quen voi quy trinh
+echo %C_BLD%Khi nao dung nao:%C_RST%
+echo   Clone: chac chan, khong can review
+echo   Clone-preview: can kiem tra truoc
+echo   Dung clone-preview lan dau
+echo   Dung clone khi da quen voi quy trinh
 echo.
-echo  %C_BLD%Luu y:%C_RST%
-echo  - Ca hai deu can Microsoft Word
-echo  - Clone-preview mo Word, ban tu dong luu
-echo  - Khong dong Word khi dang preview
+echo %C_BLD%Luu y:%C_RST%
+echo   - Ca hai deu can Microsoft Word
+echo   - Preview mo Word, ban tu dong luu khi dong
+echo   - Khong dong Word khi dang preview
 echo.
 pause
-goto menu
+goto :menu
 
 :page3
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  QUY TRINH HOAT DONG                       %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  QUY TRINH HOAT DONG                                   %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_GRN%Buoc 1%C_RST% - Copy template
-echo  - Doc file template.docx
-echo  - Copy thanh file tam
-echo  - Giu nguyen toan bo cau truc
+echo %C_GRN%Buoc 1%CRST% - Copy template
+echo   - Doc file template.docx
+echo   - Copy thanh file tam (tempfile.mktemp)
+echo   - Giu nguyen toan bo cau truc
 echo.
-echo  %C_GRN%Buoc 2%C_RST% - Xoa noi dung
-echo  - Mo file copy
-echo  - Xoa tat ca doan van
-echo  - Giu nguyen header, footer
-echo  - Giu nguyen style definitions
+echo %C_GRN%Buoc 2%CRST% - Xoa noi dung
+echo   - Mo file tam bang Word COM
+echo   - Xoa tat ca doan van (Range.Delete)
+echo   - Giu nguyen header, footer
+echo   - Giu nguyen style definitions
 echo.
-echo  %C_GRN%Buoc 3%C_RST% - Dua noi dung target
-echo  - Doc file target.docx
-echo  - Copy tung doan van
-echo  - Chen vao file copy
-echo  - Dung lai mau sac ban dau
+echo %C_GRN%Buoc 3%CRST% - Copy noi dung target
+echo   - Mo file target.docx
+echo   - Selection.WholeStory -> Copy
+echo   - Dong file target
 echo.
-echo  %C_GRN%Buoc 4%C_RST% - Luu output
-echo  - Luu file output.docx
-echo  - Dong Word COM
-echo  - Bao cao ket qua
+echo %C_GRN%Buoc 4%CRST% - Paste vao template
+echo   - Mo file tam
+echo   - PasteAndFormat(WD_PASTE_ORIGINAL = 16)
+echo   - Dung lai mau sac ban dau
 echo.
-echo  %C_BLD%Tong thoi gian:%C_RST% 2-5 giay tuy kich thuoc file
+echo %C_GRN%Buoc 5%CRST% - Luu output
+echo   - SaveAs(output_path, save_format)
+echo   - Dong Word COM
+echo   - Xoa file tam
+echo   - Bao cao ket qua
+echo.
+echo %C_BLD%Tong thoi gian:%C_RST% 2-5 giay tuy kich thuoc file
 echo.
 pause
-goto menu
+goto :menu
 
 :page4
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  CACH DUNG                                  %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  CACH DUNG - CLI VA MENU                               %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  %C_BLD%1. Clone hoan chinh:%C_RST%
-echo  python src/main.py clone "template.docx" "target.docx" -o output.docx
-echo  - Template: file mau can sao chep
-echo  - Target: file co noi dung
-echo  - Output: file ket qua
+echo %C_BLD%1. Clone hoan chinh:%C_RST%
+echo   python src/main.py clone "template.docx" "target.docx" -o output.docx
+echo   Template: file mau can sao chep
+echo   Target: file co noi dung
+echo   Output: file ket qua
 echo.
-echo  %C_BLD%2. Clone-preview:%C_RST%
-echo  python src/main.py clone-preview "template.docx" "target.docx"
-echo  - Mo Word de review
-echo  - Kiem tra ket qua
-echo  - Luu thu cong
+echo %C_BLD%2. Clone-preview:%C_RST%
+echo   python src/main.py clone-preview "template.docx" "target.docx"
+echo   Mo Word de review
+echo   Kiem tra ket qua, luu thu cong
 echo.
-echo  %C_BLD%3. Qua Menu:%C_RST%
-echo  - Mo run.bat -> Menu 2
-echo  - Chon Clone hoac Clone-preview
-echo  - Nhap duong dan khi yeu cau
+echo %C_BLD%3. Qua Menu:%C_RST%
+echo   Mo run.bat -> Menu 2
+echo   Chon Clone hoac Clone-preview
+echo   Nhap duong dan khi yeu cau
 echo.
-echo  %C_BLD%4. Tham so:%C_RST%
-echo  - -o: duong dan xuat, mac dinh outputs/
-echo  - Template phai la .docx hoac .doc
-echo  - Target phai la .docx hoac .doc
+echo %C_BLD%4. Tham so:%C_RST%
+echo   - -o: duong dan xuat, mac dinh target_cloned.ext
+echo   - Template: .docx hoac .doc
+echo   - Target: .docx hoac .doc
+echo   - Output khong duoc giong target
+echo.
+echo %C_BLD%5. Tinh nang ho tro:%C_RST%
+echo   - Section va Page Setup: A4, margins, orientation
+echo   - Header/Footer: noi dung, dinh dang
+echo   - Watermark: van ban, hinh anh
+echo   - TOC: muc luc tu dong
+echo   - Columns: so cot trang
+echo   - Style definitions: Normal, Heading, Quote...
 echo.
 pause
-goto menu
+goto :menu
 
 :page5
 cls
 echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  TINH NANG HO TRO                           %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo %C_CYA%============================================================%C_RST%
+echo %C_CYA%%C_BLD%  XU LY LOI                                              %C_RST%
+echo %C_CYA%============================================================%C_RST%
 echo.
-echo  CloneEngine ho tro sao chep cac thanh phan sau:
+echo %C_RED%Loi 1: Cannot initialize Word COM%CRST%
+echo   Nguyen nhan: Microsoft Word khong cai dat
+echo   Giai phap: Cai dat Microsoft Word/Office
+echo   Kiem tra: Word co mo duoc khong
+echo   Alternative: dung Format thay the
 echo.
-echo  %C_GRN%1. Section va Page Setup%C_RST%
-echo  - Kich thuoc trang: A4, A5, Letter...
-echo  - Co le trang: tren, duoi, trai, phai
-echo  - Huong trang: ngang/doc
-echo  - Margins: top, bottom, left, right
+echo %C_RED%Loi 2: COM busy - Word dang ban%CRST%
+echo   Nguyen nhan: Word dang xu ly tac vu khac
+echo   Giai phap: Dong tat ca file Word
+echo   Doi 5 giay roi thu lai
+echo   CloneEngine tu dong retry (max 10 lan)
 echo.
-echo  %C_GRN%2. Header va Footer%C_RST%
-echo  - Noi dung header, footer
-echo  - Dinh dang header, footer
-echo  - First page header/footer
-echo  - Odd/even page headers
+echo %C_RED%Loi 3: Template not found%CRST%
+echo   Nguyen nhan: File template khong ton tai
+echo   Giai phap: Kiem tra lai duong dan
+echo   Dung "" cho path co dau cach
 echo.
-echo  %C_GRN%3. Watermark%C_RST%
-echo  - Watermark van ban
-echo  - Watermark hinh anh
-echo  - Muc do trong suot
+echo %C_RED%Loi 4: Access denied%CRST%
+echo   Nguyen nhan: File dang mo hoac khong co quyen
+echo   Giai phap: Dong file truoc khi clone
+echo   Kiem tra quyen ghi thu muc output
 echo.
-echo  %C_GRN%4. TOC va Columns%C_RST%
-echo  - Muc luc tu dong
-echo  - So cot trang
-echo  - Width cua tung cot
-echo.
-echo  %C_GRN%5. Styles%C_RST%
-echo  - Style definitions tu template
-echo  - Normal, Heading, Quote...
-echo  - TNR, Arial, va cac font khac
+echo %C_RED%Loi 5: pywin32 not installed%CRST%
+echo   Nguyen nhan: Chua cai pywin32
+echo   Giai phap: pip install -r requirements.txt
+echo   Kiem tra: python -c "import win32com.client"
 echo.
 pause
-goto menu
-
-:page6
-cls
-echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  VI DU THUC TE                              %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo.
-echo  %C_BLD%Vi du 1: Don xin phep%C_RST%
-echo  - Template: mau_don_xin_phep.docx
-echo  - Co header logo, footer trang so
-echo  - Target: noi dung don
-echo  - Ket qua: Don co dinh dang template
-echo.
-echo  %C_BLD%Vi du 2: Luan van%C_RST%
-echo  - Template: mau_luan_van.docx
-echo  - Co TOC, header, margins dac biet
-echo  - Target: noi dung luan van
-echo  - Ket qua: Luan van dung mau
-echo.
-echo  %C_BLD%Vi du 3: Bao cao cong ty%C_RST%
-echo  - Template: mau_bao_cao.docx
-echo  - Co watermark, header ngay
-echo  - Target: noi dung bao cao
-echo  - Ket qua: Bao cao chinh thuc
-echo.
-echo  %C_BLD%Vi du 4: Phieu bien ban%C_RST%
-echo  - Template: mau_bien_ban.docx
-echo  - Co cot ngang, footer
-echo  - Target: noi dung bien ban
-echo  - Ket qua: Bien ban dung mau
-echo.
-pause
-goto menu
-
-:page7
-cls
-echo.
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo  %C_BLD%%C_CYA  XU LY LOI                                  %C_RST%
-echo  %C_BLD%%C_CYA=============================================%C_RST%
-echo.
-echo  %C_RED%Loi 1: Cannot initialize Word COM%C_RST%
-echo  - Nguyen nhan: Microsoft Word khong cai dat
-echo  - Giai phap: Cai dat Microsoft Word
-echo  - Hoac dung Office 365 Online
-echo  - Kiem tra Word dang chay
-echo.
-echo  %C_RED%Loi 2: COM busy - Word dang ban%C_RST%
-echo  - Nguyen nhan: Word dang mo file khac
-echo  - Giai phap: Dong tat ca file Word
-echo  - Doi 5 giay roi thu lai
-echo  - Khoi dong lai Word neu can
-echo.
-echo  %C_RED%Loi 3: Template not found%C_RST%
-echo  - Nguyen nhan: File template khong ton tai
-echo  - Giai phap: Kiem tra lai duong dan
-echo  - Dung "" cho path co dau cach
-echo  - Kiem tra file ton tai khong
-echo.
-echo  %C_RED%Loi 4: Access denied%C_RST%
-echo  - Nguyen nhan: File dang mo hoac khong co quyen
-echo  - Giai phap: Dong file truoc khi clone
-echo  - Kiem tra quyen ghi thu muc output
-echo.
-echo  %C_RED%Loi 5: Output directory not found%C_RST%
-echo  - Nguyen nhan: Thu muc outputs/ chua ton tai
-echo  - Giai phap: Tao thu muc outputs/ truoc
-echo  - Hoac chay init de tao cau truc
-echo.
-pause
-goto menu
-
-:end
-endlocal
-exit /b 0
+goto :menu
