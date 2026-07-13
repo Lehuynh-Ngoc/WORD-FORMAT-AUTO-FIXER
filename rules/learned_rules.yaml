@@ -1,0 +1,8 @@
+rules:
+- name: Normal - learned
+  target: paragraph
+  conditions:
+    style: Normal
+  actions:
+    font: {}
+    paragraph: {}

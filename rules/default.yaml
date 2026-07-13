@@ -1,0 +1,129 @@
+rules:
+  - name: "Normal text - Times New Roman 13pt"
+    target: paragraph
+    conditions:
+      style: "Normal"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 13
+        color: "000000"
+      paragraph:
+        alignment: "justify"
+        line_spacing: 1.5
+        space_before: 6
+        space_after: 6
+
+  - name: "Heading 1"
+    target: paragraph
+    conditions:
+      style: "Heading 1"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 14
+        bold: true
+        color: "000000"
+      paragraph:
+        alignment: "left"
+        space_before: 18
+        space_after: 12
+
+  - name: "Heading 2"
+    target: paragraph
+    conditions:
+      style: "Heading 2"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 13
+        bold: true
+        italic: false
+        color: "000000"
+      paragraph:
+        alignment: "left"
+        space_before: 12
+        space_after: 6
+
+  - name: "Heading 3"
+    target: paragraph
+    conditions:
+      style: "Heading 3"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 13
+        bold: true
+        color: "000000"
+      paragraph:
+        alignment: "left"
+        space_before: 12
+        space_after: 6
+
+  - name: "Heading 4"
+    target: paragraph
+    conditions:
+      style: "Heading 4"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 13
+        bold: true
+        italic: true
+        color: "000000"
+      paragraph:
+        alignment: "left"
+        space_before: 6
+        space_after: 3
+
+  - name: "Title"
+    target: paragraph
+    conditions:
+      style: "Title"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 16
+        bold: true
+        color: "000000"
+      paragraph:
+        alignment: "center"
+        space_before: 0
+        space_after: 12
+
+  - name: "Subtitle"
+    target: paragraph
+    conditions:
+      style: "Subtitle"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 14
+        bold: false
+        color: "000000"
+      paragraph:
+        alignment: "center"
+        space_before: 0
+        space_after: 6
+
+  # --- Custom detection rules ---
+  # `pattern` (regex) → phát hiện nội dung, gán style bất kỳ bằng `heading.style`
+  # Chạy TRƯỚC built-in patterns, priority cao nhất
+  #
+  # - name: "French chapter"
+  #   conditions:
+  #     pattern: "^(CHAPITRE|Chapitre)\\s+\\d+"
+  #   heading:
+  #     style: "Heading 1"
+  #
+  # - name: "Custom subtitle"
+  #   conditions:
+  #     pattern: "^(GVHD|CBHD)\\s*:"
+  #   heading:
+  #     style: "Subtitle"
+  #
+  # - name: "By literal text"
+  #   conditions:
+  #     text_contains: "TÓM TẮT"
+  #   heading:
+  #     level: 1

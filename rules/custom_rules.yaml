@@ -1,0 +1,15 @@
+rules:
+- name: Normal - custom
+  target: paragraph
+  conditions:
+    style: Normal
+  actions:
+    font:
+      name: Times New Roman
+      size: 13.0
+      color: '000000'
+    paragraph:
+      alignment: justify
+      line_spacing: 1.5
+      space_before: 6.0
+      space_after: 6.0

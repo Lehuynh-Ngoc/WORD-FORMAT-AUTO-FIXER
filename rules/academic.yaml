@@ -1,0 +1,108 @@
+rules:
+  - name: "Academic body text"
+    target: paragraph
+    conditions:
+      style: "Normal"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 13
+        color: "000000"
+      paragraph:
+        alignment: "justify"
+        line_spacing: 1.5
+        space_before: 0
+        space_after: 6
+        first_line_indent: 1.27
+
+  - name: "Chapter heading"
+    target: paragraph
+    conditions:
+      style: "Heading 1"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 14
+        bold: true
+        color: "000000"
+      paragraph:
+        alignment: "center"
+        space_before: 24
+        space_after: 18
+
+  - name: "Section heading"
+    target: paragraph
+    conditions:
+      style: "Heading 2"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 13
+        bold: true
+        color: "000000"
+      paragraph:
+        alignment: "left"
+        space_before: 12
+        space_after: 6
+
+  - name: "Subsection heading"
+    target: paragraph
+    conditions:
+      style: "Heading 3"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 13
+        bold: true
+        italic: false
+        color: "000000"
+      paragraph:
+        alignment: "left"
+        space_before: 6
+        space_after: 3
+
+  - name: "Sub-subsection heading"
+    target: paragraph
+    conditions:
+      style: "Heading 4"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 13
+        bold: true
+        italic: true
+        color: "000000"
+      paragraph:
+        alignment: "left"
+        space_before: 6
+        space_after: 3
+
+  - name: "Document title"
+    target: paragraph
+    conditions:
+      style: "Title"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 16
+        bold: true
+        color: "000000"
+      paragraph:
+        alignment: "center"
+        space_before: 0
+        space_after: 12
+
+  - name: "Document subtitle"
+    target: paragraph
+    conditions:
+      style: "Subtitle"
+    actions:
+      font:
+        name: "Times New Roman"
+        size: 14
+        bold: false
+        color: "000000"
+      paragraph:
+        alignment: "center"
+        space_before: 0
+        space_after: 6
