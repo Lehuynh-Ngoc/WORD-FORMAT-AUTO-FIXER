@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 setlocal enabledelayedexpansion
 for /F %%a in ('echo prompt $E ^| cmd') do set "ESC=%%a"
 set "C_CYA=%ESC%[36m"
