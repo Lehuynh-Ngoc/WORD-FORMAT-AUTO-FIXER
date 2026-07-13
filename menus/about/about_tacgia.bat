@@ -1,9 +1,14 @@
-@echo off
+﻿@echo off
 setlocal enabledelayedexpansion
 for /F %%a in ('echo prompt $E ^| cmd') do set "ESC=%%a"
-set "C_CYA=%ESC%[36m" & set "C_YLW=%ESC%[33m" & set "C_GRN=%ESC%[32m"
-set "C_RED=%ESC%[31m" & set "C_GRY=%ESC%[90m" & set "C_WHT=%ESC%[37m"
-set "C_BLD=%ESC%[1m" & set "C_RST=%ESC%[0m"
+set "C_CYA=%ESC%[36m"
+set "C_YLW=%ESC%[33m"
+set "C_GRN=%ESC%[32m"
+set "C_RED=%ESC%[31m"
+set "C_GRY=%ESC%[90m"
+set "C_WHT=%ESC%[37m"
+set "C_BLD=%ESC%[1m"
+set "C_RST=%ESC%[0m"
 
 cls
 echo.

@@ -42,18 +42,18 @@ echo %C_GRY%------------------------------------------------------------%C_RST%
 echo.
 set /p SUB="%C_YLW%Nhap so (0-13): %C_RST%"
 
-if "%SUB%"=="1" call menus\about_gioithieu.bat
-if "%SUB%"=="2" call menus\about_learn.bat
-if "%SUB%"=="3" call menus\about_makerule.bat
-if "%SUB%"=="4" call menus\about_smart.bat
-if "%SUB%"=="5" call menus\about_format.bat
-if "%SUB%"=="6" call menus\about_clone.bat
-if "%SUB%"=="7" call menus\about_ai.bat
-if "%SUB%"=="8" call menus\about_translate.bat
-if "%SUB%"=="9" call menus\about_generate.bat
-if "%SUB%"=="10" call menus\about_count.bat
-if "%SUB%"=="11" call menus\about_initreset.bat
-if "%SUB%"=="12" call menus\about_tacgia.bat
-if "%SUB%"=="13" call menus\about_troubleshoot.bat
+if "%SUB%"=="1" call menus\about\about_gioithieu.bat
+if "%SUB%"=="2" call menus\about\about_learn.bat
+if "%SUB%"=="3" call menus\about\about_makerule.bat
+if "%SUB%"=="4" call menus\about\about_smart.bat
+if "%SUB%"=="5" call menus\about\about_format.bat
+if "%SUB%"=="6" call menus\about\about_clone.bat
+if "%SUB%"=="7" call menus\about\about_ai.bat
+if "%SUB%"=="8" call menus\about\about_translate.bat
+if "%SUB%"=="9" call menus\about\about_generate.bat
+if "%SUB%"=="10" call menus\about\about_count.bat
+if "%SUB%"=="11" call menus\about\about_initreset.bat
+if "%SUB%"=="12" call menus\about\about_tacgia.bat
+if "%SUB%"=="13" call menus\about\about_troubleshoot.bat
 if "%SUB%"=="0" exit /b
 goto :about

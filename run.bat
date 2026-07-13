@@ -844,5 +844,5 @@ goto :menu_caidat
 :: ABOUT / THONG TIN UNG DUNG
 :: ===================================================================
 :about
-call menus\about.bat
+call menus\about\about.bat
 goto :menu
