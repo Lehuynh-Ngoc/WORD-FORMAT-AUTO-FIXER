@@ -13,222 +13,283 @@ set "C_RST=%ESC%[0m"
 :menu
 cls
 echo.
-echo %C_CYA%============================================================%C_RST%
-echo %C_CYA%%C_BLD%         4. CAU HINH SMARTHEADING DETECTION            %C_RST%
-echo %C_CYA%============================================================%C_RST%
+echo  %C_BLD%%C_CYA==========================================%C_RST%
+echo  %C_BLD%%C_CYA  SMARTHEADING DETECTION                    %C_RST%
+echo  %C_BLD%%C_CYA  Smart - Phat hieu tieu de tu dong         %C_RST%
+echo  %C_BLD%%C_CYA==========================================%C_RST%
 echo.
-echo %C_GRY%  Chon muc de xem:%C_RST%
+echo  %C_GRN%[1]%C_RST%  Tong quan - SmartHeading la gi?
+echo  %C_GRN%[2]%C_RST%  Built-in patterns
+echo  %C_GRN%[3]%C_RST%  Custom patterns - Tu tao
+echo  %C_GRN%[4]%C_RST%  Thu tu uu tien
+echo  %C_GRN%[5]%C_RST%  Cach dung
+echo  %C_GRN%[6]%C_RST%  Vi du thuc te
+echo  %C_GRN%[7]%C_RST%  Meo va loi
 echo.
-echo %C_YLW%  1.%C_RST% Tong quan
-echo %C_YLW%  2.%C_RST% Built-in patterns (mac dinh)
-echo %C_YLW%  3.%C_RST% Cach tao custom pattern
-echo %C_YLW%  4.%C_RST% Regex mau (vi du)
-echo %C_YLW%  5.%C_RST% Thu tu uu tien
-echo %C_YLW%  6.%C_RST% Cach dung (Menu)
-echo %C_YLW%  7.%C_RST% Xu ly loi
-echo %C_RED%  0.%C_RST% Quay lai
+echo  %C_YLW%[0]%C_RST%  Quay lai
 echo.
-set /p SUB="%C_YLW%Chon: %C_RST%"
+set /p "choice=  %C_CYA%Chon: %C_RST%"
 
-if "%SUB%"=="1" goto :tongquan
-if "%SUB%"=="2" goto :builtin
-if "%SUB%"=="3" goto :custom
-if "%SUB%"=="4" goto :regex
-if "%SUB%"=="5" goto :uutien
-if "%SUB%"=="6" goto :cachdung
-if "%SUB%"=="7" goto :loixuly
-if "%SUB%"=="0" exit /b
-goto :menu
+if "%choice%"=="1" goto page1
+if "%choice%"=="2" goto page2
+if "%choice%"=="3" goto page3
+if "%choice%"=="4" goto page4
+if "%choice%"=="5" goto page5
+if "%choice%"=="6" goto page6
+if "%choice%"=="7" goto page7
+if "%choice%"=="0" goto end
+goto menu
 
-:tongquan
+:page1
 cls
 echo.
-echo %C_CYA%--- TONG QUAN ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  TONG QUAN - SMARTHEADING LA GI?            %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  %C_WHT%SmartHeading tu dong phat hien tieu de%C_RST% tu noi dung
-echo  van ban bang regex, khong can phu thuoc vao style Word.
+echo  %C_BLD%SmartHeadingFormatter%C_RST% la formatter dac biet
+echo  phat hieu tieu de tu dong bang regex patterns.
 echo.
-echo  %C_CYA%Nguyen hoat dong:%C_RST%
-echo  %C_GRY%1.%C_RST% Doc tung doan van trong file .docx
-echo  %C_GRY%2.%C_RST% Kiem tra noi dung voi danh sach regex patterns
-echo  %C_GRY%3.%C_RST% Neu match -> gan style tuong ung (Heading 1, Title...)
-echo  %C_GRY%4.%C_RST% File duoc luu voi style moi truoc khi format
+echo  %C_BLD%Nguyen ly hoat dong:%C_RST%
+echo  - Duyet tung doan van trong file Word
+echo  - So sanh noi dung voi cac regex pattern
+echo  - Neu khop -> ap dung style tuong ung
+echo  - Chuyen doan van thanh heading/title
 echo.
-echo  %C_CYA%Uu diem:%C_RST%
-echo  %C_GRY%-%C_RST% Phat hieu "Chuong 1", "1.2.3", "MUC LUC"... chinh xac
-echo  %C_GRY%-%C_RST% Ho tro tieng Viet (dau mau, chu hoa)
-echo  %C_GRY%-%C_RST% Co the them pattern tuy y cho ngon ngu/format khac
-echo  %C_GRY%-%C_RST% Chay truoc cac formatter khac (priority cao nhat)
+echo  %C_BLD%Vi du:%C_RST%
+echo  - Doan van "Chuong 1: Giai thieu" duoc phat hieu
+echo  - Ap dung style Heading 1
+echo  - Font, size, bold duoc ap dung tu rule
 echo.
-echo  %C_CYA%File cau hinh:%C_RST%  rules/smart_patterns.yaml
+echo  %C_BLD%Uu diem:%C_RST%
+echo  - Khong can danh dau tay tung tieu de
+echo  - Tu dong phat hieu cau truc van ban
+echo  - Hoat dong voi moi loai van ban Viet
+echo  - Tan xuat cao voi van ban hoc thuat
 echo.
 pause
-goto :menu
+goto menu
 
-:builtin
+:page2
 cls
 echo.
-echo %C_CYA%--- BUILT-IN PATTERNS (MAC DINH) ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  BUILT-IN PATTERNS                         %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  %C_CYA%Heading 1 (Chuong/Muc lon):%C_RST%
-echo  %C_GRY%  CHUONG/Chuong + so (Chuong 1, Chuong IV)%C_RST%
-echo  %C_GRY%  Phan + so (Phan I, Phan 1)%C_RST%
-echo  %C_GRY%  MUC LUC, TAI LIEU THAM KHAO, PHU LUC%C_RST%
-echo  %C_GRY%  LOI MO DAU, KET LUAN, DANH MUC%C_RST%
+echo  %C_YLW%--- Heading 1 - Chuong --- %C_RST%
+echo  Pattern: "Chuong \d+"
+echo  Vi du: Chuong 1, Chuong 2, Chuong 12
+echo  Style ap dung: Heading 1
 echo.
-echo  %C_CYA%Heading 2 (Muc con):%C_RST%
-echo  %C_GRY%  So.dinh.dang (1.1, 2.3, 5.2)%C_RST%
+echo  %C_YLW%--- Heading 2 - Muc con --- %C_RST%
+echo  Pattern: "\d+\.\d+"
+echo  Vi du: 1.1, 2.3, 12.5
+echo  Style ap dung: Heading 2
 echo.
-echo  %C_CYA%Heading 3 (Muc con cap 3):%C_RST%
-echo  %C_GRY%  So.dinh.dang.3 (1.2.3, 2.1.1)%C_RST%
+echo  %C_YLW%--- Heading 3 - Tieumuc --- %C_RST%
+echo  Pattern: "\d+\.\d+\.\d+"
+echo  Vi du: 1.1.1, 2.3.4, 1.2.5
+echo  Style ap dung: Heading 3
 echo.
-echo  %C_CYA%Heading 4 (Muc con cap 4):%C_RST%
-echo  %C_GRY%  So.dinh.dang.4 (1.2.3.4, 2.1.3.2)%C_RST%
+echo  %C_YLW%--- Heading 4 - Cap 4 --- %C_RST%
+echo  Pattern: "\d+\.\d+\.\d+\.\d+"
+echo  Vi du: 1.1.1.1, 2.3.4.5
+echo  Style ap dung: Heading 4
 echo.
-echo  %C_CYA%Title:%C_RST%
-echo  %C_GRY%  BAO CAO, DO AN, LUAN VAN, TIEU LUAN, LUAN AN%C_RST%
-echo  %C_GRY%  KHOA LUAN, CHUYEN DE, BO GIAO DUC%C_RST%
-echo  %C_GRY%  TRUONG DAI HOC...%C_RST%
+echo  %C_YLW%--- Title - Tieu de chinh --- %C_RST%
+echo  Pattern: "Bao cao|Do an|Luan van|De cuong"
+echo  Vi du: Bao cao thuc tap, Do an tot nghiep
+echo  Style ap dung: Title
 echo.
-echo  %C_CYA%Subtitle:%C_RST%
-echo  %C_GRY%  Nganh:, Chuyen nganh:, GVHD:, SVTH:%C_RST%
-echo  %C_GRY%  Giao vien huong dan:, Sinh vien thuc hien:%C_RST%
+echo  %C_YLW%--- Subtitle - Tieu de phu --- %C_RST%
+echo  Pattern: "Nganh:|GVHD:|GV huong dan:|De tai:"
+echo  Vi du: Nganh: CNTT, GVHD: Nguyen Van A
+echo  Style ap dung: Subtitle
 echo.
 pause
-goto :menu
+goto menu
 
-:custom
+:page3
 cls
 echo.
-echo %C_CYA%--- CACH TAO CUSTOM PATTERN ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  CUSTOM PATTERNS - TU TAO                   %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  %C_CYA%Buoc 1: Mo menu cau hinh%C_RST%
-echo  %C_WHT%run.bat%RST% -> Menu 1 -> Chon 4
+echo  Ban co the tao regex pattern rieng de phat hieu
+echo  tieu de theo y muon.
 echo.
-echo  %C_CYA%Buoc 2: Chon "2. Them pattern moi"%C_RST%
+echo  %C_BLD%Cach them custom pattern:%C_RST%
+echo  1. Mo run.bat -> Menu 1 -> Chon 3
+echo  2. Nhap regex pattern
+echo  3. Chon style ap dung
+echo  4. Luu vao rule file
 echo.
-echo  %C_CYA%Buoc 3: Nhap thong tin:%C_RST%
-echo  %C_GRY%  Pattern regex:  Dang bieu thuc chinh quy (regex)%C_RST%
-echo  %C_GRY%  Target style:   Style Word can gan (Heading 1, Title...)%C_RST%
-echo  %C_GRY%  Mo ta:          Ten mo ta (Enter = tu dong)%C_RST%
+echo  %C_BLD%Vi du custom patterns:%C_RST%
+echo  - "Muc \d+"       -> Heading 2
+echo  - "Phan \d+"      -> Heading 1
+echo  - "Bai \d+"       -> Heading 2
+echo  - "Chuong \d+"    -> Heading 1
+echo  - "Soan thao"     -> Subtitle
 echo.
-echo  %C_CYA%Buoc 4: Luu va test%C_RST%
-echo  Chon 5 de luu, nhap file Word de preview.
+echo  %C_BLD%Regex co ban trong batch:%C_RST%
+echo  - \d+   = mot so hoac nhieu so
+echo  - \w+   = mot chu hoac nhieu chu
+echo  - .*    = bat ky ky tu nao
+echo  - |     = hoac
+echo  - \s+   = khoang cach
 echo.
-echo  %C_CYA%Buoc 5: Xac nhan trong format%C_RST%
-echo  File rule rules/smart_patterns.yaml duoc tu dong
-echo  tich hop khi chay format voi rule nay.
+echo  %C_BLD%Luu y:%C_RST%
+echo  - Pattern phai la regex hop le
+echo  - Thu tu pattern quan trong
+echo  - Pattern dau tien khop se duoc ap dung
 echo.
 pause
-goto :menu
+goto menu
 
-:regex
+:page4
 cls
 echo.
-echo %C_CYA%--- REGEX MAU (VI DU) ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  THU TU UU TIEN                            %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_CYA%  Tieng Viet:%C_RST%
-echo  %C_WHT%^(CHUONG^|Chuong^)\\\s+\\\d+%C_RST%        -> Heading 1
-echo  %C_GRY%  Matches: "Chuong 1", "CHUONG 3", "Chuong IV"%C_RST%
+echo  Khi nhieu pattern khop voi cung 1 doan van,
+echo  thu tu uu tien quyet dinh style nao duoc ap dung:
 echo.
-echo  %C_WHT%^\\d+\\.\\d+\\.\\d+                      %C_RST%  -> Heading 3
-echo  %C_GRY%  Matches: "1.2.3", "5.1.2", "2.3.1"%C_RST%
+echo  %C_RED%1. Custom patterns - Uu tien cao nhat%C_RST%
+echo  - Pattern ban tao rieng
+echo  - Luon duoc kiem tra dau tien
+echo  - Co the ghi de built-in patterns
 echo.
-echo  %C_WHT%^GVHD\\\s*:%C_RST%                       -> Subtitle
-echo  %C_GRY%  Matches: "GVHD:", "GVHD: Nguyen Van A"%C_RST%
+echo  %C_YLW%2. Heading patterns - Uu tien thu hai%C_RST%
+echo  - Chuong \d+ -> Heading 1
+echo  - \d+\.\d+ -> Heading 2
+echo  - \d+\.\d+\.\d+ -> Heading 3
+echo  - \d+\.\d+\.\d+\.\d+ -> Heading 4
 echo.
-echo  %C_WHT%^(Bao cao^|Do an^|Luan van^)%C_RST%       -> Title
-echo  %C_GRY%  Matches: "Bao cao cuoi ky", "Do an tot nghiep"%C_RST%
+echo  %C_GRN%3. Title patterns - Uu tien thu ba%C_RST%
+echo  - Bao cao|Do an|Luan van|De cuong -> Title
 echo.
-echo %C_CYA%  Tieng Anh:%C_RST%
-echo  %C_WHT%^Chapter\\\s+\\\d+%C_RST%               -> Heading 1
-echo  %C_GRY%  Matches: "Chapter 1", "Chapter 5"%C_RST%
+echo  %C_CYA%4. Subtitle patterns - Uu tien thap nhat%C_RST%
+echo  - Nganh:|GVHD: -> Subtitle
 echo.
-echo  %C_WHT%^Section\\\s+\\\d+%C_RST%              -> Heading 2
-echo  %C_GRY%  Matches: "Section 1.2", "Section 3"%C_RST%
-echo.
-echo %C_CYA%  Regex co ban:%C_RST%
-echo  %C_GRY%^     = bat dau dong%C_RST%
-echo  %C_GRY%\\s+  = 1 khoang trang tro len%C_RST%
-echo  %C_GRY%\\d+  = 1 so tro len%C_RST%
-echo  %C_GRY%(...)  = nhom bat buoc%C_RST%
-echo  %C_GRY%|     = hoac%C_RST%
-echo  %C_GRY%[...]  = 1 ky tu trong tap%C_RST%
-echo  %C_GRY%+      = 1 lan tro len%C_RST%
-echo  %C_GRY%*      = 0 lan tro len%C_RST%
-echo  %C_GRY%?      = 0 hoac 1 lan%C_RST%
+echo  %C_BLD%Vi du:%C_RST%
+echo  - Doan "Chuong 1: Bao cao tong hop"
+echo  - Khop Heading 1 va khop Title
+echo  - Ket qua: Heading 1 vi uu tien cao hon
 echo.
 pause
-goto :menu
+goto menu
 
-:uutien
+:page5
 cls
 echo.
-echo %C_CYA%--- THU TU uu TIEN ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  CACH DUNG                                  %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  SmartHeading theo thu tu uu tien (match dau tien = dung):
+echo  %C_BLD%1. Bat dau su dung:%C_RST%
+echo  - Mac dinh SmartHeading da bat
+echo  - Khi format voi rule co smart_heading
+echo  - SmartHeading tu dong hoat dong
 echo.
-echo  %C_YLW%  1. Custom patterns (tu rules/smart_patterns.yaml)%C_RST%
-echo  %C_GRY%     -> Priority cao nhat, chay dau tien%C_RST%
-echo  %C_GRY%     -> Dinh nghia boi nguoi dung qua menu%C_RST%
+echo  %C_BLD%2. Kiem tratheo cau hinh:%C_RST%
+echo  - Mo rule file YAML
+echo  - Kiem tra smart_heading.enabled: true
+echo  - Xac nhan patterns
 echo.
-echo  %C_YLW%  2. Heading patterns (HEADING_PATTERNS)%C_RST%
-echo  %C_GRY%     -> Chuong, Phan, so.dinh.dang (1.1, 1.2.3)%C_RST%
-echo  %C_GRY%     -> MUC LUC, TAI LIEU THAM KHAO, KET LUAN...%C_RST%
+echo  %C_BLD%3. Them custom pattern:%C_RST%
+echo  - Mo run.bat -> Menu 1 -> Chon 3
+echo  - Nhap pattern regex
+echo  - Chon style: Heading 1-5, Title, Subtitle
+echo  - Luu vao rule
 echo.
-echo  %C_YLW%  3. Title patterns (TITLE_PATTERNS)%C_RST%
-echo  %C_GRY%     -> BAO CAO, DO AN, LUAN VAN, BO GIAO DUC...%C_RST%
+echo  %C_BLD%4. Tat SmartHeading:%C_RST%
+echo  - Dat smart_heading.enabled: false
+echo  - Hoac khong co smart_heading trong rule
+echo  - Chi format theo style co san
 echo.
-echo  %C_YLW%  4. Subtitle patterns (SUBTITLE_PATTERNS)%C_RST%
-echo  %C_GRY%     -> Nganh:, GVHD:, SVTH:, Giao vien huong dan%RST%
-echo.
-echo  %C_CYA%Luu y:%C_RST%
-echo  Neu 1 doan match ca custom VA built-in -> custom duoc uu tien.
-echo  Chi 1 style duoc gan (dau tien match).
+echo  %C_BLD%5. Cau hinh tuy chon:%C_RST%
+echo  - Chon patterns can thiet
+echo  - Bo patterns khong can
+echo  - Them patterns rieng
 echo.
 pause
-goto :menu
+goto menu
 
-:cachdung
+:page6
 cls
 echo.
-echo %C_CYA%--- CACH DUNG ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  VI DU THUC TE                              %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_CYA%  Cach 1: Qua run.bat%C_RST%
-echo  %C_GRY%1.%C_RST% Chay %C_WHT%run.bat%C_RST%
-echo  %C_GRY%2.%C_RST% Menu 1 -> Chon 4 - Cau hinh SmartHeading
-echo  %C_GRY%3.%C_RST% Them pattern, luu, test voi file Word
+echo  %C_BLD%Vi du 1: Van ban hoc thuat%C_RST%
+echo  - Input: "Chuong 1: Giai thieu ve AI"
+echo  - Pattern match: "Chuong \d+"
+echo  - Ket qua: Heading 1, TNR 16 Bold
 echo.
-echo %C_CYA%  Cach 2: Format voi SmartHeading%C_RST%
-echo  %C_WHT%python src/main.py format "file.docx" -r rules/smart_patterns.yaml%C_RST%
+echo  %C_BLD%Vi du 2: Van ban so phan%C_RST%
+echo  - Input: "1.2.3. Phuong phap thu nghiem"
+echo  - Pattern match: "\d+\.\d+\.\d+"
+echo  - Ket qua: Heading 3, TNR 14 Bold
 echo.
-echo %C_CYA%  Cach 3: Ket hop rule%C_RST%
-echo  %C_WHT%python src/main.py format "file.docx" -r "rules/smart_patterns.yaml,rules/default.yaml"%C_RST%
+echo  %C_BLD%Vi du 3: Tieu de bao cao%C_RST%
+echo  - Input: "Bao cao thuc tap cong nghe"
+echo  - Pattern match: "Bao cao"
+echo  - Ket qua: Title, TNR 16 Bold Center
 echo.
-echo  %C_GRY%SmartHeading chay TRUOC cac formatter khac.%C_RST%
-echo  No se phat hieu va gan style, sau do Font/Spacing/
-echo  Alignment se format theo style moi.
+echo  %C_BLD%Vi du 4: Thong tin sinh vien%C_RST%
+echo  - Input: "Nganh: Cong nghe thong tin"
+echo  - Pattern match: "Nganh:"
+echo  - Ket qua: Subtitle, TNR 13 Italic
+echo.
+echo  %C_BLD%Vi du 5: Custom pattern%C_RST%
+echo  - Pattern: "Bai \d+"
+echo  - Input: "Bai 1: Luyen tap"
+echo  - Ket qua: Heading 2, TNR 14 Bold
 echo.
 pause
-goto :menu
+goto menu
 
-:loixuly
+:page7
 cls
 echo.
-echo %C_CYA%--- XU LY LOI ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  MEO VA LOI                                 %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_RED%  Regex khong match nhu mong doi%C_RST%
-echo  %C_GRY%-%C_RST% Dung regex tester (regex101.com) de test truoc
-echo  %C_GRY%-%C_RST% Kiem tra dau mau: ^ = bat dau dong
-echo  %C_GRY%-%C_RST% Co the can them \b (word boundary)
+echo  %C_BLD%Meo 1: Thu tu pattern quan trong%C_RST%
+echo  - Dat pattern quan trong nhat dau tien
+echo  - Custom pattern luon truoc built-in
+echo  - Test truoc khi ap dung
 echo.
-echo %C_RED%  Style bi gan sai%C_RST%
-echo  %C_GRY%-%C_RST% Kiem tra thu tu uu tien (custom > heading > title)
-echo  %C_GRY%-%C_RST% Chi 1 style duoc gan per doan
+echo  %C_BLD%Meo 2: Regex chinh xac%C_RST%
+echo  - Dung \d+ cho so
+echo  - Dung .* cho bat ky
+echo  - Test regex tren regex101.com
 echo.
-echo %C_RED%  SmartPatterns file khong ton tai%C_RST%
-echo  %C_GRY%-%C_RST% Chua tao pattern nao -> file chua duoc tao
-echo  %C_GRY%-%C_RST% Vao menu cau hinh de them pattern dau tien
+echo  %C_BLD%Meo 3: Phan biet heading level%C_RST%
+echo  - Chuong \d+ -> Heading 1 muc lon nhat
+echo  - \d+\.\d+ -> Heading 2 muc nho hon
+echo  - \d+\.\d+\.\d+ -> Heading 3 nho hon nua
+echo.
+echo  %C_RED%Loi pho bien:%C_RST%
+echo  - Regex sai syntax -> khong match
+echo  - Pattern qua rong -> phat hieu nhieu qua
+echo  - Pattern qua hep -> bo qua nhieu tieu de
+echo  - Khong co smart_heading trong rule
+echo.
+echo  %C_BLD%Giai phap:%C_RST%
+echo  - Test regex truoc khi them vao rule
+echo  - Dung --dry-run de xem truoc
+echo  - Chinh sua pattern cho phu hop
 echo.
 pause
-goto :menu
+goto menu
+
+:end
+endlocal
+exit /b 0

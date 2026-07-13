@@ -13,294 +13,304 @@ set "C_RST=%ESC%[0m"
 :menu
 cls
 echo.
-echo %C_CYA%============================================================%C_RST%
-echo %C_CYA%%C_BLD%         7. AI PROVIDER - QUAN LY API KEY VA MODELS     %C_RST%
-echo %C_CYA%============================================================%C_RST%
+echo  %C_BLD%%C_CYA==========================================%C_RST%
+echo  %C_BLD%%C_CYA  AI PROVIDER SYSTEM                        %C_RST%
+echo  %C_BLD%%C_CYA  AI Config - Quan ly AI providers          %C_RST%
+echo  %C_BLD%%C_CYA==========================================%C_RST%
 echo.
-echo %C_GRY%  Chon muc de xem:%C_RST%
+echo  %C_GRN%[1]%C_RST%  Tong quan - AI Provider la gi?
+echo  %C_GRN%[2]%C_RST%  5 Providers ho tro
+echo  %C_GRN%[3]%C_RST%  Multi-model & Status
+echo  %C_GRN%[4]%C_RST%  CRUD - Them/Sua/Xoa
+echo  %C_GRN%[5]%C_RST%  Cach dung
+echo  %C_GRN%[6]%C_RST%  Config file ai_keys.yaml
+echo  %C_GRN%[7]%C_RST%  Meo va loi
 echo.
-echo %C_YLW%  1.%C_RST% Tong quan he thong
-echo %C_YLW%  2.%C_RST% 5 Provider mac dinh
-echo %C_YLW%  3.%C_RST% Custom API
-echo %C_YLW%  4.%C_RST% Quan ly models
-echo %C_YLW%  5.%C_RST% API Key status
-echo %C_YLW%  6.%C_RST% Cach dung (Menu + CLI)
-echo %C_YLW%  7.%C_RST% File cau hinh
-echo %C_YLW%  8.%C_RST% Xu ly loi
-echo %C_RED%  0.%C_RST% Quay lai
+echo  %C_YLW%[0]%C_RST%  Quay lai
 echo.
-set /p SUB="%C_YLW%Chon: %C_RST%"
+set /p "choice=  %C_CYA%Chon: %C_RST%"
 
-if "%SUB%"=="1" goto :tongquan
-if "%SUB%"=="2" goto :providers
-if "%SUB%"=="3" goto :custom
-if "%SUB%"=="4" goto :models
-if "%SUB%"=="5" goto :status
-if "%SUB%"=="6" goto :cachdung
-if "%SUB%"=="7" goto :config
-if "%SUB%"=="8" goto :loixuly
-if "%SUB%"=="0" exit /b
-goto :menu
+if "%choice%"=="1" goto page1
+if "%choice%"=="2" goto page2
+if "%choice%"=="3" goto page3
+if "%choice%"=="4" goto page4
+if "%choice%"=="5" goto page5
+if "%choice%"=="6" goto page6
+if "%choice%"=="7" goto page7
+if "%choice%"=="0" goto end
+goto menu
 
-:tongquan
+:page1
 cls
 echo.
-echo %C_CYA%--- TONG QUAN HE THONG ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  TONG QUAN - AI PROVIDER LA GI?             %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  %C_WHT%AI Provider System%C_RST% quan ly API keys, models va
-echo  status cho cac nha cung cap AI.
+echo  %C_BLD%AI Provider System%C_RST% quan ly cac dich vu AI
+echo  ho tro dich thuat va tao van ban Word.
 echo.
-echo %C_CYA%  Architecture:%C_RST%
-echo  %C_GRY%  ProviderConfig:%C_RST%  Ten, display_name, api_key, base_url
-echo  %C_GRY%                 models: List[ModelInfo], status, credit_info%C_RST%
-echo  %C_GRY%  ModelInfo:      name, is_active (co 1 model active)%C_RST%
-echo  %C_GRY%  APIStatus:      VALID, LOW_CREDIT, INVALID, ERROR, UNCHECKED%C_RST%
+echo  %C_BLD%Chuc nang chinh:%C_RST%
+echo  - Them/sua/xoa provider - OpenAI, Gemini, Claude...
+echo  - Them/sua/xoa model cho tung provider
+echo  - Kiem tra API key hop le
+echo  - Chon model hoat dong
+echo  - Luu cau hinh vao ai_keys.yaml
 echo.
-echo %C_CYA%  Features:%C_RST%
-echo  %C_GRY%-%C_RST% Multi-model per provider (them/sua/xoa model)
-echo  %C_GRY%-%C_RST% Quick model select (chon nhanh)
-echo  %C_GRY%-%C_RST% API key check live (test ket noi that)
-echo  %C_GRY%-%C_RST% Custom API (them provider tuy y)
-echo  %C_GRY%-%C_RST% Status colors: xanh=hop le, vang=het, do=sai
-echo  %C_GRY%-%C_RST% Tu dong tao config tu template khi chay lan dau
+echo  %C_BLD%Nguyen ly:%C_RST%
+echo  - Moi provider co API key rieng
+echo  - Moi provider co nhieu model
+echo  - Provider hoat dong dau tien = mac dinh
+echo  - Status check qua API call that
+echo  - Config luu tai config/ai_keys.yaml
 echo.
-echo %C_CYA%  Luu y quan trong:%C_RST%
-echo  %C_GRY%  p.model la property (khong phai field)%C_RST%
-echo  %C_GRY%  -> tra ve model dang active trong list models%C_RST%
-echo  %C_GRY%  Provider hoat dong = co api_key + status VALID/UNCHECKED%C_RST%
+echo  %C_BLD%Dung cho:%C_RST%
+echo  - Dich thuat file Word - Translator
+echo  - Tao van ban AI - DocGenerator
+echo  - Tat ca tinh nang can AI provider
 echo.
 pause
-goto :menu
+goto menu
 
-:providers
+:page2
 cls
 echo.
-echo %C_CYA%--- 5 PROVIDER MAC DINH ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  5 PROVIDERS HO TRO                         %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_YLW%  1. OpenAI (GPT)%C_RST%
-echo  %C_GRY%  Base URL:  https://api.openai.com/v1%C_RST%
-echo  %C_GRY%  Models:    gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo%C_RST%
-echo  %C_GRY%  Auth:      Bearer token%C_RST%
-echo  %C_GRY%  Check:     GET /models%C_RST%
+echo  %C_GRN%1. OpenAI%C_RST% - Cong ty tao ra ChatGPT
+echo  - gpt-4o          - Mo hinh moi nhat, tot nhat
+echo  - gpt-4o-mini     - Nhanh, re hon
+echo  - gpt-4-turbo     - Phien ban nhanh cua GPT-4
+echo  - gpt-3.5-turbo   - Re, pho bien
 echo.
-echo %C_YLW%  2. Google Gemini%C_RST%
-echo  %C_GRY%  Base URL:  https://generativelanguage.googleapis.com/v1beta%C_RST%
-echo  %C_GRY%  Models:    gemini-2.5-flash, gemini-2.0-flash,%C_RST%
-echo  %C_GRY%             gemini-1.5-pro, gemini-1.5-flash%C_RST%
-echo  %C_GRY%  Auth:      API key (query param)%C_RST%
-echo  %C_GRY%  Check:     GET /models?key=X%C_RST%
+echo  %C_CYA%2. Google Gemini%C_RST% - Cua Google
+echo  - gemini-2.5-flash   - Mo hinh moi nhat
+echo  - gemini-2.0-flash   - Nhanh, hieu qua
+echo  - gemini-1.5-pro     - Mo hinh lon
+echo  - gemini-1.5-flash   - Phien ban nhanh
 echo.
-echo %C_YLW%  3. Anthropic Claude%C_RST%
-echo  %C_GRY%  Base URL:  https://api.anthropic.com/v1%C_RST%
-echo  %C_GRY%  Models:    claude-sonnet-4-20250514, claude-3-5-sonnet,%C_RST%
-echo  %C_GRY%             claude-3-5-haiku, claude-3-haiku%C_RST%
-echo  %C_GRY%  Auth:      x-api-key header%C_RST%
-echo  %C_GRY%  Check:     POST /messages (gui "hi", nhan response)%C_RST%
+echo  %C_YLW%3. Anthropic Claude%C_RST% - Cua Anthropic
+echo  - claude-sonnet-4      - Mo hinh moi nhat
+echo  - claude-3-5-sonnet   - Tot, pho bien
+echo  - claude-3-5-haiku    - Nhanh, re
+echo  - claude-3-haiku      - Phien ban nhe
 echo.
-echo %C_YLW%  4. DeepSeek%C_RST%
-echo  %C_GRY%  Base URL:  https://api.deepseek.com/v1%C_RST%
-echo  %C_GRY%  Models:    deepseek-chat, deepseek-reasoner%C_RST%
-echo  %C_GRY%  Auth:      Bearer token%C_RST%
-echo  %C_GRY%  Check:     GET /models%C_RST%
+echo  %C_RED%4. DeepSeek%C_RST% - Cua Trung Quoc
+echo  - deepseek-chat    - Mo hinh chat chinh
+echo  - deepseek-reasoner - Mo hinh ly luan
 echo.
-echo %C_YLW%  5. Custom API (tu tao)%C_RST%
-echo  %C_GRY%  Base URL:  Nhap tuy y (VD: https://api.example.com/v1)%C_RST%
-echo  %C_GRY%  Models:    Nhap tuy y%C_RST%
-echo  %C_GRY%  Format:    OpenAI-compatible (/chat/completions)%C_RST%
-echo  %C_GRY%  Auth:      Bearer token (neu co)%C_RST%
+echo  %C_GRY%5. Custom API%C_RST% - API tuy chinh
+echo  - Bat ky endpoint nao ho tro OpenAI format
+echo  - Phu hop voi local LLM hoac API rieng
 echo.
 pause
-goto :menu
+goto menu
 
-:custom
+:page3
 cls
 echo.
-echo %C_CYA%--- CUSTOM API ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  MULTI-MODEL & STATUS                       %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  Them provider AI tuy y, ho tro moi API theo
-echo  format OpenAI-compatible.
+echo  %C_BLD%Multi-model per provider:%C_RST%
+echo  - Moi provider co the co nhieu model
+echo  - Moi model co ten va chi so rieng
+echo  - p.model la property tra ve model active
+echo  - Chi mot model duoc chon hoat dong
 echo.
-echo %C_CYA%  Cach them:%C_RST%
-echo  %C_GRY%1.%C_RST% Menu 4 -> Chon 2 -> Chon 3 (Quan ly provider -> Them custom)
-echo  %C_GRY%2.%C_RST% Nhap: ten viet tat, ten hien thi, base URL, API key, model
+echo  %C_BLD%Status codes:%C_RST%
 echo.
-echo %C_CYA%  Vi du:%C_RST%
-echo  %C_WHT%Ten:     ollama%C_RST%
-echo  %C_WHT%Hien thi: Ollama Local%C_RST%
-echo  %C_WHT%URL:     http://localhost:11434/v1%C_RST%
-echo  %C_WHT%Key:     (de trong)%C_RST%
-echo  %C_WHT%Model:   llama3%C_RST%
+echo  %C_GRN%VALID%C_RST% - API key hop le, con tin
+echo  - Hien thi mau xanh
+echo  - San sang su dung
+echo  - Du tien de chon
 echo.
-echo %C_CYA%  Dinh dang can thiet:%C_RST%
-echo  %C_GRY%POST {base_url}/chat/completions%C_RST%
-echo  %C_GRY%Body: {"model": "...", "messages": [...], "max_tokens": 10}%C_RST%
+echo  %C_GRY%UNCHECKED%C_RST% - Chua kiem tra
+echo  - Hien thi mau xam
+echo  - Chua verify API key
+echo  - Can check truoc khi dung
 echo.
-echo %C_CYA%  Cach xoa:%C_RST%
-echo  %C_GRY%Menu 4 -> Chon 2 -> Chon 4 (Xoa custom)%C_RST%
-echo  %C_GRY%-> Chi xoa duoc custom API (khong xoa default)%C_RST%
+echo  %C_RED%INVALID%C_RST% - API key khong hop le
+echo  - Hien thi mau do
+echo  - Sai key da het han
+echo  - Can cap nhat key moi
 echo.
-echo %C_CYA%  Cach doi ten:%C_RST%
-echo  %C_GRY%Vao chi tiet custom provider -> Chon 8 (Doi ten)%C_RST%
+echo  %C_YLW%LOW_CREDIT%C_RST% - Con it tien
+echo  - Hien thi mau vang
+echo  - Con it quota
+echo  - Can nap tien them
+echo.
+echo  %C_RED%ERROR%C_RST% - Loi ket noi
+echo  - Hien thi mau do
+echo  - Khong ket noi duoc
+echo  - Kiem tra mang hoac key
 echo.
 pause
-goto :menu
+goto menu
 
-:models
+:page4
 cls
 echo.
-echo %C_CYA%--- QUAN LY MODELS ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  CRUD - THEM/SUA/XOA                        %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  Moi provider co the co nhieu model.
-echo  Chi 1 model duoc "active" (dang dung) tai 1 thoi diem.
+echo  %C_BLD%1. Them provider moi:%C_RST%
+echo  - Mo run.bat -> Menu 4
+echo  - Chon "Them provider"
+echo  - Nhap ten provider
+echo  - Nhap API key
+echo  - Chon model mac dinh
 echo.
-echo %C_CYA%  Cach chon model active:%C_RST%
-echo  %C_GRY%Menu 4 -> Chon 1 (Chon model hoat dong nhanh)%C_RST%
-echo  %C_GRY%-> Chon provider -> Chon model tu danh sach%RST%
+echo  %C_BLD%2. Them model moi:%C_RST%
+echo  - Chon provider can them model
+echo  - Nhap ten model
+echo  - Xac nhan
+echo  - Model moi them vao danh sach
 echo.
-echo %C_CYA%  Cach them model:%C_RST%
-echo  %C_GRY%Vao chi tiet provider -> Chon 4 (Them model)%C_RST%
-echo  %C_GRY%-> Nhap ten model (VD: gpt-4o-2024-05-13)%RST%
+echo  %C_BLD%3. Xoa model:%C_RST%
+echo  - Chon provider
+echo  - Chon model can xoa
+echo  - Xac nhan xoa
+echo  - Luu cau hinh
 echo.
-echo %C_CYA%  Cach xoa model:%C_RST%
-echo  %C_GRY%Vao chi tiet provider -> Chon 6 (Xoa model)%C_RST%
-echo  %C_GRY%-> Can it nhat 1 model con lai%RST%
+echo  %C_BLD%4. Doi ten model:%C_RST%
+echo  - Chon provider
+echo  - Chon model can doi ten
+echo  - Nhap ten moi
+echo  - Xac nhan
 echo.
-echo %C_CYA%  Cach doi ten model:%C_RST%
-echo  %C_GRY%Vao chi tiet provider -> Chon 5 (Doi ten)%C_RST%
-echo  %C_GRY%-> Chon model -> Nhap ten moi%RST%
+echo  %C_BLD%5. Chon model hoat dong:%C_RST%
+echo  - Xem danh sach model
+echo  - Chon model can kich hoat
+echo  - Provider hoat dong dau tien = mac dinh
 echo.
-echo %C_CYA%  Mac dinh moi provider:%C_RST%
-echo  %C_GRY%  OpenAI:   gpt-4o (active), gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo%C_RST%
-echo  %C_GRY%  Gemini:   gemini-2.5-flash (active), gemini-2.0-flash, ...%C_RST%
-echo  %C_GRY%  Claude:   claude-sonnet-4-20250514 (active), claude-3-5-sonnet, ...%C_RST%
-echo  %C_GRY%  DeepSeek: deepseek-chat (active), deepseek-reasoner%C_RST%
+echo  %C_BLD%6. Kiem tra API key:%C_RST%
+echo  - Gui request test den API
+echo  - Cap nhat status
+echo  - Hien thi ket qua
 echo.
 pause
-goto :menu
+goto menu
 
-:status
+:page5
 cls
 echo.
-echo %C_CYA%--- API KEY STATUS ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  CACH DUNG                                  %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_YLW%  5 trang thai:%C_RST%
+echo  %C_BLD%1. Lenh CLI:%C_RST%
+echo  python src/main.py settings
+echo  - Mo giao dien quan ly AI
+echo  - Danh sach providers
+echo  - Chon thao tac
 echo.
-echo  %C_GRN%  VALID%C_RST%           API key hoat dong tot
-echo      %C_GRY%-> Da test, ket noi thanh cong, co models kha dung%C_RST%
+echo  %C_BLD%2. Qua Menu:%C_RST%
+echo  - Mo run.bat -> Menu 4
+echo  - Cai dat AI providers
+echo  - Chon thao tac can thuc hien
 echo.
-echo  %C_YLW%  UNCHECKED%C_RST%       Chua nhap API key
-echo      %C_GRY%-> Mac dinh khi chua setup. Khong phai "INVALID"%C_RST%
-echo      %C_GRY%-> Provider van co the hoat dong neu API key dung%C_RST%
+echo  %C_BLD%3. Quy trinh cai dat lan dau:%C_RST%
+echo  - Chon provider muon dung
+echo  - Nhap API key tu trang chu
+echo  - Kiem tra key hop le
+echo  - Chon model can su dung
+echo  - Provider hoat dong dau tien = mac dinh
 echo.
-echo  %C_RED%  INVALID%C_RST%         API key khong hop le
-echo      %C_GRY%-> Da nhap key, server tra loi 401 (Unauthorized)%C_RST%
+echo  %C_BLD%4. Nhan API key:%C_RST%
+echo  - OpenAI: platform.openai.com/api-keys
+echo  - Gemini: aistudio.google.com/apikey
+echo  - Claude: console.anthropic.com
+echo  - DeepSeek: platform.deepseek.com
 echo.
-echo  %C_YLW%  LOW_CREDIT%C_RST%      Gan het credit / rate limited
-echo      %C_GRY%-> Server tra loi 429 (Too Many Requests)%C_RST%
-echo      %C_GRY%-> Thu lai sau vai phut hoac nang cap plan%C_RST%
-echo.
-echo  %C_RED%  ERROR%C_RST%           Loi ket noi
-echo      %C_GRY%-> Khong ket noi duoc voi server%C_RST%
-echo      %C_GRY%-> Kiem tra base URL, firewall, proxy%C_RST%
-echo.
-echo  %C_CYA%  Cach kiem tra:%C_RST%
-echo  %C_GRY%  Menu 4 -> Chon 3 (Kiem tra tat ca)%C_RST%
-echo  %C_GRY%  Hoac: vao chi tiet provider -> Chon 7%RST%
+echo  %C_BLD%5. Su dung khi dich/thuat:%C_RST%
+echo  - Cai dat provider truoc
+echo  - Chay dich thuat hoac tao van ban
+echo  - Provider hoat dong duoc tu dong chon
 echo.
 pause
-goto :menu
+goto menu
 
-:cachdung
+:page6
 cls
 echo.
-echo %C_CYA%--- CACH DUNG ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  CONFIG FILE AI_KEYS.YAML                   %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_CYA%  Menu (run.bat):%C_RST%
-echo  %C_GRY%1.%C_RST% Chay %C_WHT%run.bat%C_RST%
-echo  %C_GRY%2.%C_RST% Menu 4 - Cai dat
-echo  %C_GRY%3.%C_RST% Chon 1 - Quan ly AI providers
+echo  %C_BLD%Vi tri:%C_RST% config/ai_keys.yaml
+echo  - File cau hinh luu API key va models
+echo  - Tu dong tao khi chay settings lan dau
+echo  - Duoc gitignore - khong commit len git
 echo.
-echo %C_CYA%  CLI:%C_RST%
-echo  %C_WHT%python src/main.py settings%C_RST%
+echo  %C_BLD%Cau truc YAML:%C_RST%
+echo  providers:
+echo    openai:
+echo      api_key: sk-xxxxxxxx
+echo      active_model: gpt-4o
+echo      status: VALID
+echo      models:
+echo        - gpt-4o
+echo        - gpt-4o-mini
+echo        - gpt-4-turbo
+echo    gemini:
+echo      api_key: AIzaxxxxxx
+echo      active_model: gemini-2.5-flash
+echo      status: VALID
+echo      models:
+echo        - gemini-2.5-flash
+echo        - gemini-2.0-flash
 echo.
-echo %C_CYA%  Menu 3 tuy chon:%C_RST%
-echo  %C_YLW%  1.%C_RST% Chon model hoat dong (nhanh)
-echo      %C_GRY%Chon provider -> Chon model tu danh sach%RST%
-echo  %C_YLW%  2.%C_RST% Quan ly provider (day du)
-echo      %C_GRY%Chon provider -> Chi tiet (URL, key, models, check)%RST%
-echo      %C_GRY%Them custom, xoa custom, doi ten%RST%
-echo  %C_YLW%  3.%C_RST% Kiem tra tat ca API keys
-echo      %C_GRY%Test tung provider, hien thi status%RST%
+echo  %C_BLD%Mac dinh:%C_RST%
+echo  - Khi chua co file, tu dong tao tu template
+echo  - Template: config/ai_keys_template.yaml
+echo  - Tat ca key de trong, ban tu nhap
 echo.
-echo  %C_CYA%Luu y:%C_RST%  Provider hoat dong dau tien co key hop le
-echo  se duoc chon tu dong khi dung dich vu AI.
+echo  %C_BLD%Luu y:%C_RST%
+echo  - KHONG commit file nay len git
+echo  - Chua co template -> tao tu dong
+echo  - Cap nhat status khi thay doi key
 echo.
 pause
-goto :menu
+goto menu
 
-:config
+:page7
 cls
 echo.
-echo %C_CYA%--- FILE CAU HINH ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  MEO VA LOI                                 %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_CYA%  File:%C_RST%  config/ai_keys.yaml
+echo  %C_BLD%Meo 1: Chon provider phu hop%C_RST%
+echo  - OpenAI: chat tot, pho bien nhat
+echo  - Gemini: mien phi nhieu, nhanh
+echo  - Claude: van ban dai tot
+echo  - DeepSeek: re, ly luan tot
 echo.
-echo %C_CYA%  Cau truc YAML:%C_RST%
-echo  %C_GRY%providers:%C_RST%
-echo  %C_GRY%  openai:%C_RST%
-echo  %C_GRY%    api_key: "sk-..."%C_RST%
-echo  %C_GRY%    base_url: "https://api.openai.com/v1"%C_RST%
-echo  %C_GRY%    models:%C_RST%
-echo  %C_GRY%      - name: "gpt-4o"%C_RST%
-echo  %C_GRY%        is_active: true%C_RST%
-echo  %C_GRY%      - name: "gpt-4o-mini"%C_RST%
-echo  %C_GRY%        is_active: false%C_RST%
-echo  %C_GRY%    status: "valid"%C_RST%
-echo  %C_GRY%    last_checked: "2025-01-01 12:00:00"%C_RST%
-echo  %C_GRY%    credit_info: "Hop le. 50 models."%C_RST%
+echo  %C_BLD%Meo 2: Kiem tra key truoc khi dung%C_RST%
+echo  - Luon check key moi nhap
+echo  - Xem status mau xanh = OK
+echo  - Dung provider VALID de dam bao
 echo.
-echo %C_CYA%  Template:%C_RST%  config/ai_keys_template.yaml
-echo  %C_GRY%providers: {}%C_RST%
+echo  %C_BLD%Meo 3: Quan ly nhieu provider%C_RST%
+echo  - Cai dat nhieu provider
+echo  - Chuyen doi khi provider loi
+echo  - Dung provider tot nhat cho tung nhiem vu
 echo.
-echo %C_CYA%  Auto-creation:%C_RST%
-echo  %C_GRY%-%C_RST% Neu ai_keys.yaml khong ton tai -> tu dong copy tu template
-echo  %C_GRY%-%C_RST% Duoc thuc thi khi load config lan dau
-echo.
-echo %C_CYA%  Git:%C_RST%
-echo  %C_GRY%  ai_keys.yaml       -> gitignored (an API keys)%C_RST%
-echo  %C_GRY%  ai_keys_template.yaml -> tracked (safe)%C_RST%
+echo  %C_RED%Loi pho bien:%C_RST%
+echo  - API key invalid: kiem tra lai key
+echo  - Rate limited: doi 1 phut, thu lai
+echo  - No active provider: chon provider hop le
+echo  - Network error: kiem tra ket noi mang
+echo  - File corrupted: xoa file, tao lai tu template
 echo.
 pause
-goto :menu
+goto menu
 
-:loixuly
-cls
-echo.
-echo %C_CYA%--- XU LY LOI ---%C_RST%
-echo.
-echo %C_RED%  Loi: "No active AI provider found"%C_RST%
-echo  %C_GRY%-%C_RST% Chua co provider nao co API key hop le
-echo  %C_GRY%-%C_RST% Vao Menu 4 -> Quan ly provider -> Nhap API key
-echo  %C_GRY%-%C_RST% Kiem tra status: can VALID hoac UNCHECKED
-echo.
-echo %C_RED%  Loi: "API key is invalid (401)"%C_RST%
-echo  %C_GRY%-%C_RST% API key sai hoac het han
-echo  %C_GRY%-%C_RST% Tao lai key tai trang cua provider
-echo  %C_GRY%-%C_RST% Kiem tra: co them khoang trang/thua ky tu?
-echo.
-echo %C_RED%  Loi: "Rate limited (429)"%C_RST%
-echo  %C_GRY%-%C_RST% Qua nhieu request -> cho vai phut
-echo  %C_GRY%-%C_RST% Nang len plan cao hon hoac giam tan suat
-echo.
-echo %C_RED%  Loi: "Connection error"%C_RST%
-echo  %C_GRY%-%C_RST% Kiem tra internet, firewall, proxy
-echo  %C_GRY%-%C_RST% Kiem tra base URL dung chua
-echo  %C_GRY%-%C_RST% VPN co the chan ket noi
-echo.
-echo %C_RED%  Provider custom khong hoat dong%C_RST%
-echo  %C_GRY%-%C_RST% Kiem tra base URL dung format (OpenAI-compatible)
-echo  %C_GRY%-%C_RST% Kiem tra model name dung chua
-echo  %C_GRY%-%C_RST% Dung Menu 4 -> Kiem tra API key de test
-echo.
-pause
-goto :menu
+:end
+endlocal
+exit /b 0

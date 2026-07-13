@@ -145,9 +145,9 @@ echo  %C_GRY%rules:%C_RST%
 echo  %C_GRY%  - name: "Ten rule"%C_RST%
 echo  %C_GRY%    target: paragraph%C_RST%
 echo  %C_GRY%    conditions:%C_RST%
-echo  %C_GRY%      style: "Normal"      %C_RST% %C_GRY%(theo style)%C_RST%
-echo  %C_GRY%      pattern: "regex"     %C_RST% %C_GRY%(theo noi dung)%C_RST%
-echo  %C_GRY%      text_contains: "text" %C_RST% %C_GRY%(chua chuoi)%C_RST%
+echo  %C_GRY%      style: "Normal"       %C_GRY%(theo style)%C_RST%
+echo  %C_GRY%      pattern: "regex"      %C_GRY%(theo noi dung)%C_RST%
+echo  %C_GRY%      text_contains: "text"  %C_GRY%(chua chuoi)%C_RST%
 echo  %C_GRY%    actions:%C_RST%
 echo  %C_GRY%      font:%C_RST%
 echo  %C_GRY%        name: "Times New Roman"%C_RST%
@@ -165,7 +165,7 @@ echo  %C_GRY%      heading:%C_RST%
 echo  %C_GRY%        level: 1%C_RST%
 echo.
 echo  %C_CYA%Conditions (3 loai):%C_RST%
-echo  %C_YLW%  style:%C_RST%      匹配 style name cua Word
+echo  %C_YLW%  style:%C_RST%      Phu hop style name cua Word
 echo  %C_YLW%  pattern:%C_RST%     Regex matching noi dung doan
 echo  %C_YLW%  text_contains:%C_RST% Chua chuoi cu the
 echo.

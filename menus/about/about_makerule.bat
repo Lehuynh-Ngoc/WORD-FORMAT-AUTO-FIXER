@@ -13,251 +13,293 @@ set "C_RST=%ESC%[0m"
 :menu
 cls
 echo.
-echo %C_CYA%============================================================%C_RST%
-echo %C_CYA%%C_BLD%         3. TAO RULE THU CONG                          %C_RST%
-echo %C_CYA%============================================================%C_RST%
+echo  %C_BLD%%C_CYA==========================================%C_RST%
+echo  %C_BLD%%C_CYA  TAO RULE THU CONG                         %C_RST%
+echo  %C_BLD%%C_CYA  Makerule - Interactive Rule Builder       %C_RST%
+echo  %C_BLD%%C_CYA==========================================%C_RST%
 echo.
-echo %C_GRY%  Chon muc de xem:%C_RST%
+echo  %C_GRN%[1]%C_RST%  Tong quan - Makerule la gi?
+echo  %C_GRN%[2]%C_RST%  19 Style mac dinh
+echo  %C_GRN%[3]%C_RST%  Thong so co the cau hinh
+echo  %C_GRN%[4]%C_RST%  Vi du YAML format
+echo  %C_GRN%[5]%C_RST%  Cach dung - CLI va Menu
+echo  %C_GRN%[6]%C_RST%  Meo tao rule tot
+echo  %C_GRN%[7]%C_RST%  Xu ly loi
 echo.
-echo %C_YLW%  1.%C_RST% Tong quan
-echo %C_YLW%  2.%C_RST% Cach dung (CLI + Menu)
-echo %C_YLW%  3.%C_RST% Danh sach 19 style mac dinh
-echo %C_YLW%  4.%C_RST% Moi thong so chi tiet
-echo %C_YLW%  5.%C_RST% Vi du file YAML
-echo %C_YLW%  6.%C_RST% Meo va loi ich
-echo %C_YLW%  7.%C_RST% Xu ly loi
-echo %C_RED%  0.%C_RST% Quay lai
+echo  %C_YLW%[0]%C_RST%  Quay lai
 echo.
-set /p SUB="%C_YLW%Chon: %C_RST%"
+set /p "choice=  %C_CYA%Chon: %C_RST%"
 
-if "%SUB%"=="1" goto :tongquan
-if "%SUB%"=="2" goto :cachdung
-if "%SUB%"=="3" goto :danhmuc
-if "%SUB%"=="4" goto :thongso
-if "%SUB%"=="5" goto :vidu
-if "%SUB%"=="6" goto :meo
-if "%SUB%"=="7" goto :loixuly
-if "%SUB%"=="0" exit /b
-goto :menu
+if "%choice%"=="1" goto page1
+if "%choice%"=="2" goto page2
+if "%choice%"=="3" goto page3
+if "%choice%"=="4" goto page4
+if "%choice%"=="5" goto page5
+if "%choice%"=="6" goto page6
+if "%choice%"=="7" goto page7
+if "%choice%"=="0" goto end
+goto menu
 
-:tongquan
+:page1
 cls
 echo.
-echo %C_CYA%--- TONG QUAN ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  TONG QUAN - MAKERULE LA GI?                %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  %C_WHT%Tao rule dinh dang theo y muon%C_RST% ma khong can
-echo  phan tich file mau. Nguoi dung chon style tu Word,
-echo  nhap thong so tung muc (font, size, spacing...) va
-echo  ung dung tu dong tao file rule YAML.
+echo  %C_BLD%Makerule%C_RST% la cong cu tao rule YAML thu cong
+echo  giao dien tuong tac. Ban chon style, nhap thong so,
+echo  va cong cu tao file rule YAML hoan chinh tu dong.
 echo.
-echo %C_YLW%  Uu diem so voi learn:%C_RST%
-echo  %C_GRY%-%C_RST% Day du quyen kiem soat moi thong so
-echo  %C_GRY%-%C_RST% Khong can file mau mau
-echo  %C_GRY%-%C_RST% Tao rule cho bat ky style nao (Normal, Heading 1-9,
-echo    Title, Subtitle, List Bullet, Quote, Table Grid, Header...)
-echo  %C_GRY%-%C_RST% Moi rule tu dong them heading level neu la Heading
+echo  %C_BLD%Nguyen ly hoat dong:%C_RST%
+echo  - Hien thi danh sach cac style co san
+echo  - Ban chon style can cau hinh
+echo  - Nhap tung thong so cho style do
+echo  - Tong hop va xuat file YAML
+echo  - Kiem tra tinh hop le cua rule
 echo.
-echo %C_YLW%  File duoc tao:%C_RST%  rules/custom_rules.yaml
+echo  %C_BLD%Uu diem:%C_RST%
+echo  - Khong can hieu YAML
+echo  - Giao dien don gian, de su dung
+echo  - Tao rule nhanh chong
+echo  - Phu hop voi yeu cau cu the
+echo.
+echo  %C_BLD%Phu hop khi:%C_RST%
+echo  - Ban biet chinh xac thong so can thiet
+echo  - Muon tao rule tuy chinh
+echo  - Khong co file mau de learn
+echo  - Can tao rule nhanh cho 1 loai van ban
 echo.
 pause
-goto :menu
+goto menu
 
-:cachdung
+:page2
 cls
 echo.
-echo %C_CYA%--- CACH DUNG ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  19 STYLE MAC DINH                          %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_CYA%  Cach 1: CLI truc tiep%C_RST%
-echo  %C_WHT%python src/cli/maker.py%C_RST%
+echo  Makerule ho tro 19 style pho bien trong Word:
 echo.
-echo %C_CYA%  Cach 2: Qua run.bat%C_RST%
-echo  %C_GRY%1.%C_RST% Chay %C_WHT%run.bat%C_RST%
-echo  %C_GRY%2.%C_RST% Menu 1 - Hoc va Cau hinh
-echo  %C_GRY%3.%C_RST% Chon 2 - Tao rule thu cong
+echo  %C_YLW%--- Van ban co ban --- %C_RST%
+echo   1. Normal         - Doan van binh thuong
+echo   2. Title          - Tieu de chinh cua van ban
+echo   3. Subtitle       - Tieu de phu
 echo.
-echo %C_CYA%  Quy trinh:%C_RST%
-echo  %C_GRY%1.%C_RST% Chon style tu danh sach (Normal, Heading 1-9...)
-echo  %C_GRY%2.%C_RST% Nhap thong so: font name, size, bold, italic, color
-echo  %C_GRY%3.%C_RST% Nhap thong so paragraph: alignment, spacing, indent
-echo  %C_GRY%4.%C_RST% Chon them style khac hoac dung lai
-echo  %C_GRY%5.%C_RST% Dat ten file -> tao rules/custom_rules.yaml
+echo  %C_YLW%--- Tieu de --- %C_RST%
+echo   4. Heading 1      - Tieu de cap 1 - Chuong
+echo   5. Heading 2      - Tieu de cap 2 - Muc
+echo   6. Heading 3      - Tieu de cap 3 - Tieumuc
+echo   7. Heading 4      - Tieu de cap 4
+echo   8. Heading 5      - Tieu de cap 5
 echo.
-echo %C_CYA%  Vi du nhanh:%C_RST%
-echo  %C_WHT%Style:%C_RST% Normal
-echo  %C_WHT%Font:%C_RST%  Times New Roman, 13pt, mau 000000
-echo  %C_WHT%Bold:%C_RST%   Khong
-echo  %C_WHT%Align:%C_RST%  justify (4)
-echo  %C_WHT%Spacing:%C_RST% 1.5, truoc 6pt, sau 6pt
+echo  %C_YLW%--- Danh sach --- %C_RST%
+echo   9. List Bullet    - Danh dau dau cham
+echo  10. List Number    - Danh dau so
+echo.
+echo  %C_YLW%--- Trich dan --- %C_RST%
+echo  11. Quote          - Trich dan thong thuong
+echo  12. Intense Quote  - Trich dan noi bat
+echo.
+echo  %C_YLW%--- Bieu mau --- %C_RST%
+echo  13. Table Grid     - Khung bang
+echo  14. TOC Heading    - Tieu de muc luc
+echo  15. Header         - Dau trang
+echo  16. Footer         - Cuoi trang
+echo  17. Caption        - Chuthich hinh anh
+echo  18. Bibliography   - Tai lieu tham khao
 echo.
 pause
-goto :menu
+goto menu
 
-:danhmuc
+:page3
 cls
 echo.
-echo %C_CYA%--- DANH SACH 19 STYLE MAC DINH ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  THONG SO CO THE CAU HINH                   %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  %C_CYA%Document structure:%C_RST%
-echo  %C_YLW% 1.%C_RST% Normal            %C_GRY%Doan van chinh%RST%
-echo  %C_YLW% 2.%C_RST% Title             %C_GRY%Tieu de lon%RST%
-echo  %C_YLW% 3.%C_RST% Subtitle          %C_GRY%Tieu de phu%RST%
-echo  %C_YLW% 4.%C_RST% Heading 1         %C_GRY%Chuong/Muc lon%RST%
-echo  %C_YLW% 5.%C_RST% Heading 2         %C_GRY%Muc con%RST%
-echo  %C_YLW% 6.%C_RST% Heading 3         %C_GRY%Muc con cap 3%RST%
-echo  %C_YLW% 7.%C_RST% Heading 4         %C_GRY%Muc con cap 4%RST%
-echo  %C_YLW% 8.%C_RST% Heading 5         %C_GRY%Cap 5 (hiem)%RST%
+echo  %C_BLD%Font:%C_RST%
+echo  - font_name: Ten font, vi du Times New Roman, Arial
+echo  - font_size: Kich thuoc, vi du 13, 14, 16
+echo  - bold: true/false - Dam
+echo  - italic: true/false - Nghieng
+echo  - color: Mau sac hex, vi du #000000, #FF0000
 echo.
-echo  %C_CYA%Lists:%C_RST%
-echo  %C_YLW% 9.%C_RST% List Bullet       %C_GRY%Danh sach dau cham%RST%
-echo  %C_YLW%10.%C_RST% List Number       %C_GRY%Danh sach so%RST%
+echo  %C_BLD%Can le & Khoang cach:%C_RST%
+echo  - alignment: justify/center/left/right
+echo  - line_spacing: Khoang cach dong, vi du 1.0, 1.5, 2.0
+echo  - space_before: Khoang cach truoc doan, don vi pt
+echo  - space_after: Khoang cach sau doan, don vi pt
+echo  - first_line_indent: Thut dong dau, don vi pt
 echo.
-echo  %C_CYA%Special:%C_RST%
-echo  %C_YLW%11.%C_RST% Quote             %C_GRY%Trich dan%RST%
-echo  %C_YLW%12.%C_RST% Intense Quote     %C_GRY%Trich dan dam%RST%
-echo  %C_YLW%13.%C_RST% Table Grid        %C_GRY%Bang co khung%RST%
-echo  %C_YLW%14.%C_RST% TOC Heading       %C_GRY%Tieu de muc luc%RST%
+echo  %C_BLD%Style dac biet:%C_RST%
+echo  - heading_level: Cap do heading 1-5
+echo  - page_break_before: Xuong trang truoc
+echo  - keep_with_next: Giu khong ngan
+echo  - widow_control: Quan ly dong mo
 echo.
-echo  %C_CYA%Header/Footer:%C_RST%
-echo  %C_YLW%15.%C_RST% Header            %C_GRY%Dau trang%RST%
-echo  %C_YLW%16.%C_RST% Footer            %C_GRY%Chan trang%RST%
-echo.
-echo  %C_CYA%Other:%C_RST%
-echo  %C_YLW%17.%C_RST% Caption           %C_GRY%Chu thich hinh anh%RST%
-echo  %C_YLW%18.%C_RST% Bibliography      %C_GRY%Tai lieu tham khao%RST%
-echo.
-echo  %C_GRY%Co the nhap ten style tuy y: "List Bullet 2", "TOC 3",%RST%
-echo  %C_GRY%"Normal (Web)", "Heading 6", "Subtitle 2"...%RST%
+echo  %C_BLD%Mau sac pho bien:%C_RST%
+echo  - #000000 - Den
+echo  - #FF0000 - Do
+echo  - #0000FF - Xanh duong
+echo  - #008000 - Xanh la
+echo  - #808080 - Xam
 echo.
 pause
-goto :menu
+goto menu
 
-:thongso
+:page4
 cls
 echo.
-echo %C_CYA%--- MOI THONG SO CHI TIET ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  VI DU YAML FORMAT                          %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_CYA%  Font settings:%C_RST%
-echo  %C_YLW%  name%C_RST%       Ten font (Times New Roman, Arial, Calibri...)
-echo  %C_YLW%  size%C_RST%       Kich thuoc (13, 14, 16... co phay: 13.5)
-echo  %C_YLW%  bold%C_RST%       In dam (true/false)
-echo  %C_YLW%  italic%C_RST%     In nghieng (true/false)
-echo  %C_YLW%  color%C_RST%      Mau chu hex (000000 = den, FFFFFF = trang)
+echo  %C_YLW%--- Rule mac dinh --- %C_RST%
+echo  settings:
+echo    font_name: Times New Roman
+echo    font_size: 13
+echo    alignment: justify
+echo    line_spacing: 1.5
+echo    space_before: 0
+echo    space_after: 0
 echo.
-echo %C_CYA%  Paragraph settings:%C_RST%
-echo  %C_YLW%  alignment%C_RST%  Can le (1=left, 2=center, 3=right, 4=justify)
-echo  %C_YLW%  line_spacing%C_RST%  Khoang cach dong (1.0, 1.5, 2.0)
-echo  %C_YLW%  space_before%C_RST%  Khoang cach truoc doan (pt): 6, 12, 18
-echo  %C_YLW%  space_after%C_RST%   Khoang cach sau doan (pt): 6, 12
-echo  %C_YLW%  first_line_indent%C_RST%  Le dong dau tinh bang cm (1.27 = 1 tab)
+echo  %C_YLW%--- Rule voi Heading --- %C_RST%
+echo  styles:
+echo    Normal:
+echo      font_name: Times New Roman
+echo      font_size: 13
+echo      alignment: justify
+echo      line_spacing: 1.5
+echo    Heading 1:
+echo      font_name: Times New Roman
+echo      font_size: 16
+echo      bold: true
+echo      space_before: 24
+echo      space_after: 12
+echo    Title:
+echo      font_name: Times New Roman
+echo      font_size: 16
+echo      bold: true
+echo      alignment: center
+echo      space_after: 24
 echo.
-echo %C_CYA%  Heading settings (tu dong):%C_RST%
-echo  Neu style la "Heading X" -> tu dong them %C_WHT%heading.level = X%C_RST%
-echo  Neu la "Title" -> tu dong them %C_WHT%heading.style = "Title"%C_RST%
-echo.
-echo %C_CYA%  Gia tri mac dinh theo style:%C_RST%
-echo  %C_GRY%  Normal:      TNR 13, justify, spacing 1.5, space 6/6%C_RST%
-echo  %C_GRY%  Heading 1:   TNR 14, bold, left, space 18/12%C_RST%
-echo  %C_GRY%  Heading 2:   TNR 13, bold, left, space 12/6%C_RST%
-echo  %C_GRY%  Heading 3:   TNR 13, bold, left, space 12/6%C_RST%
-echo  %C_GRY%  Heading 4:   TNR 13, bold+italic, left, space 6/3%C_RST%
-echo  %C_GRY%  Title:       TNR 16, bold, center, space 0/12%C_RST%
-echo  %C_GRY%  Subtitle:    TNR 14, center, space 0/6%C_RST%
+echo  %C_YLW%--- Rule voi SmartHeading --- %C_RST%
+echo  smart_heading:
+echo    enabled: true
+echo    patterns:
+echo      - pattern: "Chuong \d+"
+echo        style: Heading 1
+echo      - pattern: "\d+\.\d+"
+echo        style: Heading 2
 echo.
 pause
-goto :menu
+goto menu
 
-:vidu
+:page5
 cls
 echo.
-echo %C_CYA%--- VI DU FILE YAML ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  CACH DUNG - CLI VA MENU                    %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  %C_CYA%Dang co ban:%C_RST%
-echo  %C_GRY%rules:%C_RST%
-echo  %C_GRY%  - name: "Normal - custom"%C_RST%
-echo  %C_GRY%    target: paragraph%C_RST%
-echo  %C_GRY%    conditions:%C_RST%
-echo  %C_GRY%      style: "Normal"%C_RST%
-echo  %C_GRY%    actions:%C_RST%
-echo  %C_GRY%      font:%C_RST%
-echo  %C_GRY%        name: "Times New Roman"%C_RST%
-echo  %C_GRY%        size: 13%C_RST%
-echo  %C_GRY%        bold: false%C_RST%
-echo  %C_GRY%        color: "000000"%C_RST%
-echo  %C_GRY%      paragraph:%C_RST%
-echo  %C_GRY%        alignment: "justify"%C_RST%
-echo  %C_GRY%        line_spacing: 1.5%C_RST%
-echo  %C_GRY%        space_before: 6%C_RST%
-echo  %C_GRY%        space_after: 6%C_RST%
+echo  %C_BLD%1. Lenh CLI:%C_RST%
+echo  python src/main.py makerule
+echo  - Mo giao dien tuong tac
+echo  - Danh sach style hien thi
+echo  - Nhap thong so tung style
+echo  - Xuat file YAML
 echo.
-echo  %C_CYA%Dang voi Heading:%C_RST%
-echo  %C_GRY%  - name: "Heading 1 - custom"%C_RST%
-echo  %C_GRY%    target: paragraph%C_RST%
-echo  %C_GRY%    conditions:%C_RST%
-echo  %C_GRY%      style: "Heading 1"%C_RST%
-echo  %C_GRY%    actions:%C_RST%
-echo  %C_GRY%      font:%C_RST%
-echo  %C_GRY%        name: "Times New Roman"%C_RST%
-echo  %C_GRY%        size: 14%C_RST%
-echo  %C_GRY%        bold: true%C_RST%
-echo  %C_GRY%      paragraph:%C_RST%
-echo  %C_GRY%        alignment: "left"%C_RST%
-echo  %C_GRY%        space_before: 18%C_RST%
-echo  %C_GRY%        space_after: 12%C_RST%
-echo  %C_GRY%      heading:%C_RST%
-echo  %C_GRY%        level: 1%C_RST%
+echo  %C_BLD%2. Qua Menu giao dien:%C_RST%
+echo  - Mo run.bat
+echo  - Chon Menu 1 - Hoc & Cau hinh
+echo  - Chon 2 - Tao rule thu cong
+echo  - Lam theo huong dan
 echo.
-echo  %C_CYA%Ap dung:%C_RST%
-echo  %C_WHT%python src/main.py format "file.docx" -r rules/custom_rules.yaml%C_RST%
+echo  %C_BLD%3. Quy trinh:%C_RST%
+echo  - Chon style can cau hinh
+echo  - Nhap ten font
+echo  - Nhap kich thuoc font
+echo  - Chon bold/italic
+echo  - Chon can le
+echo  - Nhap khoang cach
+echo  - Xac nhan va luu
+echo.
+echo  %C_BLD%4. File output:%C_RST%
+echo  - Mac dinh: rules/custom_rule.yaml
+echo  - Co the chi dinh ten khac
+echo  - San sang dung voi FormatEngine
 echo.
 pause
-goto :menu
+goto menu
 
-:meo
+:page6
 cls
 echo.
-echo %C_CYA%--- MEO VA LOI ICH ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  MEO TAO RULE TOT                          %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_YLW%  1. Ket hop voi learn%C_RST%
-echo  Tao rule thu cong cho cac style chinh (Normal, Heading 1-3),
-echo  dung learn de hoc style phu (List, Quote, TOC...).
-echo  Ket noi: %C_WHT%-r "rules/custom_rules.yaml,rules/learned.yaml"%C_RST%
+echo  %C_BLD%Meo 1: Bat dau don gian%C_RST%
+echo  - Chi cau hinh Normal truoc
+echo  - Them heading sau
+echo  - Don gian = it loi
 echo.
-echo %C_YLW%  2. Chinh sua file YAML thu cong%C_RST%
-echo  File YAML co the mo bang text editor (VS Code, Notepad++)
-echo  de chinh sua thong so sau khi tao.
+echo  %C_BLD%Meo 2: Dung thong so chuan%C_RST%
+echo  - TNR 13 la thong dung cho van ban Viet
+echo  - Justify la can le mac dinh
+echo  - Line spacing 1.5 la pho bien
 echo.
-echo %C_YLW%  3. Dung first_line_indent cho van hoc%C_RST%
-echo  %C_WHT%first_line_indent: 1.27%C_RST% = le 1cm (hoac 1.5cm)
-echo  Phu hop cho luan van, bao cao hoc tap.
+echo  %C_BLD%Meo 3: Test lien tuc%C_RST%
+echo  - Tao rule -> test --dry-run -> chinh sua
+echo  - Khong ap dung rule chua test
+echo  - Dung file mau de kiem tra
 echo.
-echo %C_YLW%  4. Mau hex pho bien%C_RST%
-echo  %C_GRY%000000 = den, 333333 = xam dam, 666666 = xam%RST%
-echo  %C_GRY%FFFFFF = trang, FF0000 = do, 0000FF = xanh%RST%
+echo  %C_BLD%Meo 4: Luu nhieu version%C_RST%
+echo  - rule_v1.yaml, rule_v2.yaml...
+echo  - Co the quay lai version cu
+echo  - So sanh ket qua giua cac version
 echo.
-echo %C_YLW%  5. Style tuy y%C_RST%
-echo  Khong gioi han 19 style. Co the nhap bat ky ten style
-echo  nao co san trong file Word (List Bullet 2, TOC 3...).
+echo  %C_BLD%Meo 5: Xem rule mau%C_RST%
+echo  - Doc rules/default.yaml de hoc hoi
+echo  - Doc rules/academic.yaml de them mau
+echo  - Ap dung kinh nghiem tu rule mau
 echo.
 pause
-goto :menu
+goto menu
 
-:loixuly
+:page7
 cls
 echo.
-echo %C_CYA%--- XU LY LOI ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  XU LY LOI                                  %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_RED%  Loi: "Cannot find style 'X'%C_RST%
-echo  %C_GRY%-%C_RST% Style khong ton tai trong file Word dich
-echo  %C_GRY%-%C_RST% Mo Word, kiem tra style names trong Styles pane
+echo  %C_RED%Loi 1: File output not found%C_RST%
+echo  - Nguyen nhan: Thu muc rules/ chua ton tai
+echo  - Giai phap: Tao thu muc rules/ truoc
+echo  - Hoac chay init de tao cau truc
 echo.
-echo %C_RED%  Loi: YAML parse error%C_RST%
-echo  %C_GRY%-%C_RST% Sai dinh dang YAML (thieu dau hai cham, sai thu tuc)
-echo  %C_GRY%-%C_RST% Dung YAML validator de kiem tra
-echo  %C_GRY%-%C_RST% Luu y: tab khong duoc dung (chi duoc dung space)
+echo  %C_RED%Loi 2: Invalid YAML format%C_RST%
+echo  - Nguyen nhan: Sai dinh dang YAML
+echo  - Giai phap: Kiem tra indent, dau hai cham
+echo  - Dung text editor co syntax highlighting
 echo.
-echo %C_RED%  Loi: "File not found"%C_RST%
-echo  %C_GRY%-%C_RST% Kiem tra ten file rule dung chua
-echo  %C_GRY%-%C_RST% File phai nam trong thu muc rules/
+echo  %C_RED%Loi 3: Style not recognized%C_RST%
+echo  - Nguyen nhan: Ten style khong dung
+echo  - Giai phap: Dung dung ten style Word
+echo  - Xem danh sach 19 style ho tro
+echo.
+echo  %C_RED%Loi 4: Permission denied%C_RST%
+echo  - Nguyen nhan: Khong co quyen ghi thu muc
+echo  - Giai phap: Kiem tra quyen truy cap
+echo  - Chay voi quyen Administrator neu can
 echo.
 pause
-goto :menu
+goto menu
+
+:end
+endlocal
+exit /b 0

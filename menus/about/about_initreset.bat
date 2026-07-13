@@ -13,123 +13,286 @@ set "C_RST=%ESC%[0m"
 :menu
 cls
 echo.
-echo %C_CYA%============================================================%C_RST%
-echo %C_CYA%%C_BLD%         11. KHOI TAO / RESET DU AN                    %C_RST%
-echo %C_CYA%============================================================%C_RST%
+echo  %C_BLD%%C_CYA==========================================%C_RST%
+echo  %C_BLD%%C_CYA  INIT / RESET                               %C_RST%
+echo  %C_BLD%%C_CYA  Khoi tao / Dat lai                        %C_RST%
+echo  %C_BLD%%C_CYA==========================================%C_RST%
 echo.
-echo %C_GRY%  Chon muc de xem:%C_RST%
+echo  %C_GRN%[1]%C_RST%  Tong quan - Init & Reset la gi?
+echo  %C_GRN%[2]%C_RST%  Init - Khoi tao cau truc
+echo  %C_GRN%[3]%C_RST%  Reset - Dat lai cau hinh
+echo  %C_GRN%[4]%C_RST%  Giu nguyen vs Xoa
+echo  %C_GRN%[5]%C_RST%  Cach dung
+echo  %C_GRN%[6]%C_RST%  Vi du thuc te
+echo  %C_GRN%[7]%C_RST%  Xu ly loi
 echo.
-echo %C_YLW%  1.%C_RST% Init (khoi tao)
-echo %C_YLW%  2.%C_RST% Reset (dat lai)
-echo %C_YLW%  3.%C_RST% Cach dung
-echo %C_YLW%  4.%C_RST% Luu y
-echo %C_RED%  0.%C_RST% Quay lai
+echo  %C_YLW%[0]%C_RST%  Quay lai
 echo.
-set /p SUB="%C_YLW%Chon: %C_RST%"
+set /p "choice=  %C_CYA%Chon: %C_RST%"
 
-if "%SUB%"=="1" goto :init
-if "%SUB%"=="2" goto :reset
-if "%SUB%"=="3" goto :cachdung
-if "%SUB%"=="4" goto :luuy
-if "%SUB%"=="0" exit /b
-goto :menu
+if "%choice%"=="1" goto page1
+if "%choice%"=="2" goto page2
+if "%choice%"=="3" goto page3
+if "%choice%"=="4" goto page4
+if "%choice%"=="5" goto page5
+if "%choice%"=="6" goto page6
+if "%choice%"=="7" goto page7
+if "%choice%"=="0" goto end
+goto menu
 
-:init
+:page1
 cls
 echo.
-echo %C_CYA%--- INIT (KHOI TAO DU AN) ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  TONG QUAN - INIT & RESET LA GI?            %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  Tao thu muc va file can thiet khi chua ton tai.
+echo  %C_BLD%Init%C_RST% - Khoi tao cau truc thu muc
+echo  - Tao tat ca thu muc can thiet
+echo  - Tao file cau hinh mac dinh
+echo  - San sang su dung ngay
+echo  - Khong anh huong file da co
 echo.
-echo %C_CYA%  Thu muc duoc tao:%C_RST%
-echo  %C_GRY%-%C_RST% config/          Chua API keys + template
-echo  %C_GRY%-%C_RST% outputs/         Chua file dau ra
-echo  %C_GRY%-%C_RST% mau/             Chua file mau cho clone
-echo  %C_GRY%-%C_RST% rules/           Chua file rule YAML
+echo  %C_BLD%Reset%C_RST% - Dat lai cau hinh
+echo  - Xoa file cau hinh da thay doi
+echo  - Xoa rule da hoc
+echo  - Xoa file da xuat
+echo  - Giu nguyen file goc
 echo.
-echo %C_CYA%  File duoc tao:%C_RST%
-echo  %C_GRY%-%C_RST% outputs/.gitkeep   De git theo thu muc trong
+echo  %C_BLD%Khi nao dung:%C_RST%
+echo  - Init: Lan dau su dung
+echo  - Init: Them thu muc thieu
+echo  - Reset: Muon bat dau lai
+echo  - Reset: Cau hinh bi loi
 echo.
-echo %C_CYA%  Luu y:%C_RST%
-echo  %C_GRY%-%C_RST% Chi tao nhung gi CHUA ton tai
-echo  %C_GRY%-%C_RST% Khong ghi de file da co
-echo  %C_GRY%-%C_RST% ai_keys.yaml duoc tu dong tao tu template khi chay
+echo  %C_BLD%Luu y quan trong:%C_RST%
+echo  - Reset KHONG xoa file rule goc
+echo  - Reset KHONG xoa ai_keys_template.yaml
+echo  - Reset KHONG xoa default.yaml
+echo  - Chi xoa file ban da tao/thay doi
 echo.
 pause
-goto :menu
+goto menu
 
-:reset
+:page2
 cls
 echo.
-echo %C_CYA%--- RESET (DAT LAI TRANG THAI) ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  INIT - KHOI TAO CAU TRUC                   %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo  Xoa du lieu nguoi dung, giu nguyen file default.
+echo  %C_BLD%Thu muc duoc tao:%C_RST%
 echo.
-echo %C_CYA%  Duoc XOA:%C_RST%
-echo  %C_RED%-%C_RST% config/ai_keys.yaml          API keys (BI MAT!)
-echo  %C_RED%-%C_RST% outputs/*                    Tat ca file dau ra
-echo  %C_RED%-%C_RST% rules/learned_rules.yaml     Rule tu learn
-echo  %C_RED%-%C_RST% rules/custom_rules.yaml      Rule thu cong
-echo  %C_RED%-%C_RST% rules/smart_patterns.yaml    Cau hinh SmartHeading
+echo  %C_GRN%config/%C_RST% - Cau hinh he thong
+echo  - ai_keys.yaml: API key va models
+echo  - ai_keys_template.yaml: mau cau hinh
 echo.
-echo %C_CYA%  DUOC GIU NGUYEN:%C_RST%
-echo  %C_GRN%-%C_RST% rules/default.yaml           Rule mac dinh
-echo  %C_GRN%-%C_RST% rules/academic.yaml          Rule hoc tap
-echo  %C_GRN%-%C_RST% config/ai_keys_template.yaml Template (git tracked)
+echo  %C_GRN%outputs/%C_RST% - File dau ra
+echo  - Cac file .docx da xuat
+echo  - Cac file dich/thuat
 echo.
-echo %C_CYA%  Ket qua:%C_RST%
-echo  %C_GRY%-%C_RST% outputs/ duoc xoa sach, giu .gitkeep
-echo  %C_GRY%-%C_RST% AI config xoa -> can setup lai API key
-echo  %C_GRY%-%C_RST% Rules custom bi xoa -> can learn/tao lai
+echo  %C_GRN%mau/%C_RST% - File mau
+echo  - File mau .docx de learn
+echo  - File mau de test
+echo.
+echo  %C_GRN%rules/%C_RST% - Rule dinh dang
+echo  - default.yaml: rule mac dinh
+echo  - academic.yaml: rule hoc thuat
+echo  - learned_rules.yaml: tu learn
+echo  - custom_rule.yaml: tu tao
+echo.
+echo  %C_BLD%File duoc tao:%C_RST%
+echo  - config/ai_keys.yaml tu template
+echo  - rules/default.yaml co san
+echo  - rules/academic.yaml co san
+echo  - rules/smart_patterns.yaml co san
 echo.
 pause
-goto :menu
+goto menu
 
-:cachdung
+:page3
 cls
 echo.
-echo %C_CYA%--- CACH DUNG ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  RESET - DAT LAI CAU HINH                   %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_CYA%  CLI:%C_RST%
-echo  %C_WHT%python src/main.py init%C_RST%      %C_GRY%Khoi tao%C_RST%
-echo  %C_WHT%python src/main.py reset%C_RST%     %C_GRY%Reset%C_RST%
+echo  %C_RED%File duoc xoa khi Reset:%C_RST%
 echo.
-echo %C_CYA%  Menu (run.bat):%C_RST%
-echo  %C_GRY%1.%C_RST% Chay %C_WHT%run.bat%C_RST%
-echo  %C_GRY%2.%C_RST% Menu 4 - Cai dat
-echo  %C_GRY%3.%C_RST% Chon 2 - Khoi tao du an  HOAC  Chon 3 - Reset
+echo  %C_RED%1. Cau hinh AI:%C_RST%
+echo  - config/ai_keys.yaml
+echo  - API key da nhap
+echo  - Cau hinh models da thiet lap
 echo.
-echo %C_CYA%  Khi nao dung?%C_RST%
-echo  %C_GRY%-%C_RST% Lan dau cai dat:  chay init
-echo  %C_GRY%-%C_RST% Muon bat dau lai: chay reset
-echo  %C_GRY%-%C_RST% File bi thieu:    chay init
-echo  %C_GRY%-%C_RST% Muon xoa sach:    chay reset
+echo  %C_RED%2. File da xuat:%C_RST%
+echo  - outputs/*.docx
+echo  - Tat ca file da xuat
+echo  - Khong the phuc hoi
+echo.
+echo  %C_RED%3. Rule da hoc:%C_RST%
+echo  - rules/learned_rules.yaml
+echo  - Rule tu learn
+echo  - Co the learn lai
+echo.
+echo  %C_RED%4. Rule tuy chinh:%C_RST%
+echo  - rules/custom_rule.yaml
+echo  - Rule ban tao thu cong
+echo  - Can tao lai
+echo.
+echo  %C_RED%5. Smart patterns:%C_RST%
+echo  - rules/smart_patterns.yaml
+echo  - Custom patterns
+echo  - Co the tao lai
 echo.
 pause
-goto :menu
+goto menu
 
-:luuy
+:page4
 cls
 echo.
-echo %C_CYA%--- LUU Y ---%C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  GIU NGUYEN VS XOA                          %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
 echo.
-echo %C_RED%  Reset se XOA API keys!%C_RST%
-echo  %C_GRY%Sau reset, can vao Menu 4 de nhap lai API key.%C_RST%
+echo  %C_GRN%GIU NGUYEN - Reset khong anh huong:%C_RST%
+echo  - rules/default.yaml - rule mac dinh
+echo  - rules/academic.yaml - rule hoc thuat
+echo  - rules/smart_patterns.yaml - patterns
+echo  - config/ai_keys_template.yaml - mau
+echo  - src/ - nguon code
+echo  - tests/ - test files
+echo  - run.bat - menu giao dien
+echo  - pyproject.toml - cau truc project
+echo  - requirements.txt - dependencies
 echo.
-echo %C_RED%  Reset se XOA rules da hoc/tao!%C_RST%
-echo  %C_GRY%Can chay learn hoac tao rule lai.%C_RST%
+echo  %C_RED%XOA - Reset anh huong:%C_RST%
+echo  - config/ai_keys.yaml - cau hinh AI
+echo  - outputs/* - file da xuat
+echo  - rules/learned_rules.yaml - rule hoc
+echo  - rules/custom_rule.yaml - rule tay
+echo  - rules/smart_patterns.yaml - patterns
 echo.
-echo %C_RED%  Reset se XOA SmartHeading patterns!%C_RST%
-echo  %C_GRY%Can cau hinh lai patterns.%C_RST%
-echo.
-echo %C_RED%  Reset se XOA tat ca outputs!%C_RST%
-echo  %C_GRY%Luu file quan trong truoc khi reset.%C_RST%
-echo.
-echo  %C_CYA%  Reset KHONG xoa:%C_RST%
-echo  %C_GRN%-%C_RST% default.yaml, academic.yaml (rule mac dinh)
-echo  %C_GRN%-%C_RST% ai_keys_template.yaml (template)
-echo  %C_GRN%-%C_RST% tat ca source code
-echo  %C_GRN%-%C_RST% mau/, config/ (thu muc)
+echo  %C_BLD%Muc dich:%C_RST%
+echo  - Giu lai file goc, rule mau
+echo  - Xoa file ban da tao/thay doi
+echo  - Tra ve trang thai ban dau
 echo.
 pause
-goto :menu
+goto menu
+
+:page5
+cls
+echo.
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  CACH DUNG                                  %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo.
+echo  %C_BLD%1. Init:%C_RST%
+echo  python src/main.py init
+echo  - Tao tat ca thu muc
+echo  - Tao file cau hinh mac dinh
+echo  - San sang su dung
+echo.
+echo  %C_BLD%2. Reset:%C_RST%
+echo  python src/main.py reset
+echo  - Xoa file cau hinh
+echo  - Giu lai file goc
+echo  - Tra ve trang thai ban dau
+echo.
+echo  %C_BLD%3. Qua Menu:%C_RST%
+echo  - Mo run.bat -> Menu 3
+echo  - Chon Init hoac Reset
+echo  - Xac nhan thao tac
+echo.
+echo  %C_BLD%4. Yeu cau:%C_RST%
+echo  - Init: khong can gi dac biet
+echo  - Reset: chac chan muon reset
+echo  - Backup du lieu truoc khi reset
+echo.
+echo  %C_BLD%5. Sau Init:%C_RST%
+echo  - Cai dat requirements.txt
+echo  - Cai dat AI provider
+echo  - Bat dau su dung
+echo.
+pause
+goto menu
+
+:page6
+cls
+echo.
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  VI DU THUC TE                              %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo.
+echo  %C_BLD%Vi du 1: Lan dau su dung%C_RST%
+echo  - Chay init
+echo  - Thu muc duoc tao day du
+echo  - ai_keys.yaml tu template
+echo  - Rule goc san sang
+echo  - Cai dat requirements.txt
+echo  - Bat dau su dung
+echo.
+echo  %C_BLD%Vi du 2: Reset sau khi thay doi%C_RST%
+echo  - Da thay doi nhieu rule
+echo  - Muon quay lai mac dinh
+echo  - Chay reset
+echo  - Rule goc duoc giu lai
+echo  - Rule hoc/tay bi xoa
+echo  - Hoc lai tu dau
+echo.
+echo  %C_BLD%Vi du 3: Reset de cai dat lai AI%C_RST%
+echo  - API key bi loi
+echo  - Muon cai dat lai provider
+echo  - Chay reset
+echo  - ai_keys.yaml bi xoa
+echo  - Tao lai tu template
+echo  - Nhap key moi
+echo.
+echo  %C_BLD%Vi du 4: Kiem tra cau truc%C_RST%
+echo  - Chay init
+echo  - Kiem tra thu muc co day du
+echo  - Kiem tra file co ton tai
+echo  - Them thu muc thieu
+echo.
+pause
+goto menu
+
+:page7
+cls
+echo.
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo  %C_BLD%%C_CYA  XU LY LOI                                  %C_RST%
+echo  %C_BLD%%C_CYA=============================================%C_RST%
+echo.
+echo  %C_RED%Loi 1: Permission denied%C_RST%
+echo  - Nguyen nhan: Khong co quyen ghi
+echo  - Giai phap: Chay voi quyen Administrator
+echo  - Kiem tra quyen thu muc
+echo.
+echo  %C_RED%Loi 2: File already exists%C_RST%
+echo  - Nguyen nhan: File da ton tai
+echo  - Giai phap: Init khong ghi de file cu
+echo  - Chi tao file moi
+echo  - Dung reset de xoa file cu
+echo.
+echo  %C_RED%Loi 3: Directory not found%C_RST%
+echo  - Nguyen nhan: Thu muc cha khong ton tai
+echo  - Giai phap: Kiem tra thu muc hien tai
+echo  - Chay init tu thu muc goc
+echo.
+echo  %C_RED%Loi 4: Reset that bai%C_RST%
+echo  - Nguyen nhan: File dang mo trong Word
+echo  - Giai phap: Dong Word truoc khi reset
+echo  - Kiem tra quyen truy cap
+echo.
+echo  %C_RED%Loi 5: Template not found%C_RST%
+echo  - Nguyen nhan: ai_keys_template.yaml thieu
+echo  - Giai phap: Kiem tra file template
+echo  - File template can co trong config/
+echo.
+pause
+goto menu
+
+:end
+endlocal
+exit /b 0

@@ -67,7 +67,7 @@ echo %C_CYA%  %- - - - - - - - - - - - - - - - - - - - - - - - - - - - -%C_RST%
 echo.
 echo  %C_WHT%fomat_word/%C_RST%
 echo  %C_GRY%  run.bat              Menu giao dien (5 menu)%C_RST%
-echo  %C_GRY%  menus/               Thong tin ung dung%C_RST%
+echo  %C_GRY%  menus/about/         Thong tin ung dung%C_RST%
 echo  %C_GRY%  config/              API keys + models%C_RST%
 echo  %C_GRY%  mau/                 File mau cho clone%C_RST%
 echo  %C_GRY%  outputs/             File dau ra%C_RST%
