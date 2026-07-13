@@ -3,7 +3,7 @@
 ## Cấu trúc dự án
 ```
 fomat_word/
-├── run.bat                 # Menu giao diện (5 menu chính, ANSI color)
+├── run.bat                 # Menu giao diện (5 menu, ANSI color)
 ├── pyproject.toml          # Project config + dependencies
 ├── requirements.txt        # pip install -r requirements.txt
 ├── AGENTS.md               # Tài liệu này
@@ -20,6 +20,23 @@ fomat_word/
 │   ├── smart_patterns.yaml # Custom pattern SmartHeading
 │   └── learned_rules.yaml  # Tự sinh từ learn command
 │
+├── menus/
+│   └── about/              # Menu 5 - Thông tin (14 file .bat)
+│       ├── about.bat       # Menu chính About (gọi từ run.bat)
+│       ├── about_gioithieu.bat   # 1. Giới thiệu chi tiết
+│       ├── about_learn.bat       # 2. Hướng dẫn Learn
+│       ├── about_makerule.bat    # 3. Hướng dẫn Makerule
+│       ├── about_smart.bat       # 4. Hướng dẫn SmartHeading
+│       ├── about_format.bat      # 5. Hướng dẫn Format
+│       ├── about_clone.bat       # 6. Hướng dẫn Clone
+│       ├── about_ai.bat          # 7. Hệ thống AI Provider
+│       ├── about_translate.bat   # 8. Hướng dẫn Dịch thuật
+│       ├── about_generate.bat    # 9. Hướng dẫn Tạo văn bản
+│       ├── about_count.bat       # 10. Hướng dẫn Đếm từ
+│       ├── about_initreset.bat   # 11. Hướng dẫn Init/Reset
+│       ├── about_tacgia.bat      # 12. Thông tin Tác giả
+│       └── about_troubleshoot.bat # 13. Xử lý sự cố
+│
 ├── src/
 │   ├── main.py             # Entry point (sys.path.insert + cli.handler.run)
 │   │
@@ -32,7 +49,8 @@ fomat_word/
 │   │   ├── counter.py      # WordCounter - dem tu, ky tu, dong, trang
 │   │   ├── translator.py   # Translator - dich van ban bang AI (batch chunks)
 │   │   ├── doc_generator.py# DocGenerator - tao van ban bang AI
-│   │   └── ai_config.py    # AI provider CRUD, multi-model, API key check
+│   │   ├── ai_config.py    # AI provider CRUD, multi-model, API key check
+│   │   └── init_reset.py   # Init/reset project logic
 │   │
 │   ├── formatters/
 │   │   ├── base.py         # BaseFormatter (abstract)
@@ -49,7 +67,7 @@ fomat_word/
 │   │   └── factory.py      # get_parser() theo extension
 │   │
 │   ├── cli/
-│   │   ├── handler.py      # argparse (10 subcommands) + routing
+│   │   ├── handler.py      # argparse (12 subcommands) + routing
 │   │   ├── maker.py        # Tạo rule thủ công (interactive)
 │   │   ├── rule_viewer.py  # Xem danh sách + chi tiết rules
 │   │   ├── smart_config.py # Cấu hình SmartHeading patterns
@@ -96,8 +114,8 @@ python -m pytest tests/ -v
 - **Menu 1 - Hoc & Cau hinh:** Hoc tu mau, tao rule thu cong, cau hinh SmartHeading
 - **Menu 2 - Dinh dang & Clone:** Preview, format (chon rule), format mac dinh, clone, clone-preview
 - **Menu 3 - Tien ich:** Danh sach rules, unit tests, dem so tu/trang, dich thuat, tao van ban AI
-- **Menu 4 - Cai dat:** Quan ly AI providers (API key, models, custom API, kiem tra)
-- **Menu 5 - Thong tin:** About, gioi thieu tung chuc nang
+- **Menu 4 - Cai dat:** Quan ly AI providers (API key, models, custom API, kiem tra), Init/Reset project
+- **Menu 5 - Thong tin:** About, gioi thieu tung chuc nang (14 file .bat trong menus/about/)
 
 **Luu ý batch:** Dung `goto` thay vi `if/else` block cho flow control. Khong dat `goto` ben trong `if/else` `(...)` block — gay crash cmd.exe tren mot so Windows.
 
@@ -115,6 +133,8 @@ python -m pytest tests/ -v
 | `translate` | Dich van ban bang AI | Input file, target lang |
 | `settings` | Quan ly AI providers | Khong (interactive) |
 | `generate` | Tao van ban Word bang AI | Khong (interactive) |
+| `init` | Khoi tao project moi | Khong |
+| `reset` | Reset project ve mac dinh | Khong |
 
 ## Hai che do xu ly
 
@@ -160,6 +180,7 @@ python -m pytest tests/ -v
 7. ANSI color codes: `ESC[36m`=cyan, `ESC[33m`=yellow, `ESC[32m`=green, `ESC[31m`=red, `ESC[90m`=gray, `ESC[37m`=white, `ESC[0m`=reset
 8. Provider hoat dong = provider co `api_key` + `status` in (VALID, UNCHECKED)
 9. `p.model` la property (khong phai field) — tra ve model dang active
+10. File .bat phai khong co UTF-8 BOM — cmd.exe an 4 ky tu dau, gay loi `'ocal' is not recognized`
 
 ## Test
 ```bash

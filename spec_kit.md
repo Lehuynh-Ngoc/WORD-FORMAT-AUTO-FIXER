@@ -40,6 +40,11 @@ fomat_word/
 │   ├── smart_patterns.yaml # Custom pattern SmartHeading
 │   └── learned_rules.yaml  # Tự sinh từ learn command
 │
+├── menus/
+│   └── about/              # Menu 5 - Thông tin (14 file .bat)
+│       ├── about.bat       # Menu chính About (gọi từ run.bat)
+│       └── about_*.bat     # 13 trang百科 (gioithieu, learn, makerule...)
+│
 ├── src/
 │   ├── main.py             # Entry point (sys.path.insert + cli.handler.run)
 │   │
@@ -52,7 +57,8 @@ fomat_word/
 │   │   ├── counter.py      # WordCounter - dem tu, ky tu, dong, trang
 │   │   ├── translator.py   # Translator - dich van ban bang AI (batch chunks)
 │   │   ├── doc_generator.py# DocGenerator - tao van ban bang AI
-│   │   └── ai_config.py    # AI provider CRUD, multi-model, API key check
+│   │   ├── ai_config.py    # AI provider CRUD, multi-model, API key check
+│   │   └── init_reset.py   # Init/reset project logic
 │   │
 │   ├── formatters/
 │   │   ├── base.py         # BaseFormatter (abstract)
@@ -69,7 +75,7 @@ fomat_word/
 │   │   └── factory.py      # get_parser() theo extension
 │   │
 │   ├── cli/
-│   │   ├── handler.py      # argparse (10 subcommands) + routing
+│   │   ├── handler.py      # argparse (12 subcommands) + routing
 │   │   ├── maker.py        # Tạo rule thủ công (interactive, 19 styles)
 │   │   ├── rule_viewer.py  # Xem danh sách + chi tiết rules
 │   │   ├── smart_config.py # Cấu hình SmartHeading patterns
@@ -228,6 +234,8 @@ Mở Word cho người dùng xem kết quả trước khi lưu. Hỏi "Luu file?
 | `translate` | Dịch file Word | input, `-l` lang, `-s` source, `-o`, `-p` provider |
 | `settings` | Quản lý AI providers | (interactive) |
 | `generate` | Tạo văn bản Word bằng AI | `-o` |
+| `init` | Khởi tạo project mới | - |
+| `reset` | Reset project về mặc định | - |
 
 ### 8.2 Interactive CLI tools
 
@@ -409,14 +417,37 @@ Dùng `_call_ai()` trong translator.py — gọi OpenAI-compatible chat completi
 4. Dịch thuật file Word
 5. Tạo văn bản bằng AI
 
-**Cài đặt (1):**
+**Cài đặt (1-3):**
 1. Quản lý AI Provider
+2. Init - Khởi tạo project mới
+3. Reset - Reset project về mặc định
+
+**Thông tin (Menu 5):**
+`run.bat` gọi `menus\about\about.bat` — 14 file .bat trong `menus/about/`
+- `about.bat`: Menu chính About (13 lựa chọn)
+- `about_gioithieu.bat`: Giới thiệu chi tiết dự án
+- `about_learn.bat`: Hướng dẫn Learn
+- `about_makerule.bat`: Hướng dẫn Makerule
+- `about_smart.bat`: Hướng dẫn SmartHeading
+- `about_format.bat`: Hướng dẫn Format
+- `about_clone.bat`: Hướng dẫn Clone
+- `about_ai.bat`: Hệ thống AI Provider
+- `about_translate.bat`: Hướng dẫn Dịch thuật
+- `about_generate.bat`: Hướng dẫn Tạo văn bản
+- `about_count.bat`: Hướng dẫn Đếm từ
+- `about_initreset.bat`: Hướng dẫn Init/Reset
+- `about_tacgia.bat`: Thông tin Tác giả
+- `about_troubleshoot.bat`: Xử lý sự cố
+
+Mỗi file about_*.bat có sub-menu: Tổng quan → Cách dùng, Ví dụ, Mẹo, Xử lý lỗi.
 
 ### 13.2 Batch rules
 
 - Dùng `goto` thay vì `if/else` block
 - **KHÔNG** đặt `goto` bên trong `if/else` `(...)` block — gây crash
 - **KHÔNG** dùng `&` trong echo — gây crash
+- **KHÔNG** dùng `&` để chain `set` trên 1 dòng — ESC byte gây lỗi parse
+- File .bat **KHÔNG** được có UTF-8 BOM (`EF BB BF`) — cmd.exe ăn 4 ký tự đầu, gây lỗi `'ocal' is not recognized`
 - Delayed expansion (`!var!`) cho biến trong loop
 
 ---

@@ -18,8 +18,8 @@ run.bat
 - **Menu 1:** Học từ mẫu, tạo rule thủ công, cấu hình SmartHeading
 - **Menu 2:** Preview, format, clone, clone-preview
 - **Menu 3:** Danh sách rules, tests, đếm từ/trang, dịch thuật, tạo văn bản AI
-- **Menu 4:** Quản lý AI providers (API key, models, custom API)
-- **Menu 5:** Thông tin
+- **Menu 4:** Quản lý AI providers (API key, models, custom API), Init/Reset project
+- **Menu 5:** Thông tin (14 trang百科 về từng chức năng)
 
 ### CLI
 
@@ -48,6 +48,12 @@ python src/main.py generate
 
 # Quản lý AI providers
 python src/main.py settings
+
+# Khởi tạo project mới
+python src/main.py init
+
+# Reset project về mặc định
+python src/main.py reset
 ```
 
 ## AI Features
@@ -150,6 +156,10 @@ fomat_word/
 │   ├── academic.yaml       # Như default + thụt đầu dòng
 │   ├── smart_patterns.yaml # Pattern do người dùng tạo
 │   └── learned_rules.yaml  # Tự sinh từ learn command
+├── menus/
+│   └── about/              # Menu 5 - Thông tin (14 file .bat)
+│       ├── about.bat       # Menu chính About
+│       └── about_*.bat     # 13 trang百科 (gioithieu, learn, makerule...)
 ├── src/
 │   ├── main.py             # Entry point
 │   ├── core/
@@ -161,14 +171,15 @@ fomat_word/
 │   │   ├── counter.py      # Đếm từ/trang
 │   │   ├── translator.py   # Dịch file Word bằng AI
 │   │   ├── doc_generator.py# Tạo văn bản bằng AI
-│   │   └── ai_config.py    # Quản lý AI providers
+│   │   ├── ai_config.py    # Quản lý AI providers
+│   │   └── init_reset.py   # Init/reset project
 │   ├── parsers/
 │   │   ├── base.py, docx_parser.py, doc_parser.py, factory.py
 │   ├── formatters/
 │   │   ├── base.py, font.py, spacing.py, alignment.py
 │   │   ├── heading.py, smart_heading.py
 │   ├── cli/
-│   │   ├── handler.py      # CLI argparse (10 subcommands)
+│   │   ├── handler.py      # CLI argparse (12 subcommands)
 │   │   ├── maker.py        # Tạo rule tương tác
 │   │   ├── rule_viewer.py  # Xem danh sách rules
 │   │   ├── smart_config.py # Cấu hình SmartHeading
