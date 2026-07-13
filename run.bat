@@ -100,17 +100,13 @@ echo.
 echo %C_YLW%  3.%C_RST% Cau hinh SmartHeading patterns
 echo %C_GRY%     (Them regex de phat hien tieu de va gan style)%C_RST%
 echo.
-echo %C_YLW%  4.%C_RST% Khoi tao du an
-echo %C_GRY%     (Tao thu muc, copy config mac dinh)%C_RST%
-echo.
 echo %C_RED%  0.%C_RST% Quay lai
 echo.
-set /p SUB="%C_YLW%Nhap so (0-4): %C_RST%"
+set /p SUB="%C_YLW%Nhap so (0-3): %C_RST%"
 
 if "%SUB%"=="1" goto :learn
 if "%SUB%"=="2" goto :makerule
 if "%SUB%"=="3" goto :smartconfig
-if "%SUB%"=="4" goto :initproject
 if "%SUB%"=="0" goto :menu
 
 goto :menu_hoc
@@ -759,7 +755,7 @@ echo.
 python src/main.py init
 echo.
 pause
-goto :menu_hoc
+goto :menu_caidat
 
 :: --- RESET DU AN ---
 :resetproject
@@ -780,6 +776,25 @@ echo.
 pause
 goto :menu_tienich
 
+:: --- RESET DU AN (tu Cai dat) ---
+:resetcaidat
+cls
+echo.
+echo %C_CYA%============================================%C_RST%
+echo %C_CYA%%C_BLD%    RESET DU AN                             %C_RST%
+echo %C_CYA%============================================%C_RST%
+echo.
+echo %C_RED%  Canh bao: Se xoa API keys, rules hoc, file dau ra!%C_RST%
+echo %C_GRY%  Rules mac dinh (default.yaml, academic.yaml) se duoc giu nguyen.%C_RST%
+echo.
+set /p CONFIRM="%C_YLW%Nhap 'y' de xac nhan reset: %C_RST%"
+if /I not "%CONFIRM%"=="y" goto :menu_caidat
+echo.
+python src/main.py reset
+echo.
+pause
+goto :menu_caidat
+
 :: ===================================================================
 :: SUBMENU 5 - CAI DAT
 :: ===================================================================
@@ -795,11 +810,19 @@ echo.
 echo %C_YLW%  1.%C_RST% Quan ly AI Provider
 echo %C_GRY%     (API key, models, custom API, kiem tra)%C_RST%
 echo.
+echo %C_YLW%  2.%C_RST% Khoi tao du an
+echo %C_GRY%     (Tao thu muc, copy config mac dinh)%C_RST%
+echo.
+echo %C_RED%  3.%C_RST% Reset du an
+echo %C_GRY%     (Xoa API keys, rules hoc, file dau ra)%C_RST%
+echo.
 echo %C_RED%  0.%C_RST% Quay lai
 echo.
-set /p SUB="%C_YLW%Nhap so (0-1): %C_RST%"
+set /p SUB="%C_YLW%Nhap so (0-3): %C_RST%"
 
 if "%SUB%"=="1" goto :aisettings
+if "%SUB%"=="2" goto :initproject
+if "%SUB%"=="3" goto :resetcaidat
 if "%SUB%"=="0" goto :menu
 
 goto :menu_caidat
