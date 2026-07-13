@@ -852,19 +852,25 @@ echo %C_CYA%============================================%C_RST%
 echo.
 echo Chon de xem chi tiet:
 echo.
-echo %C_GRY%--------------------------------------------%C_RST%
+echo %C_GRY%--- CO SO ---%C_RST%
 echo %C_YLW%  1.%C_RST% Gioi thieu chung
-echo %C_YLW%  2.%C_RST% Chuc nang: Hoc formatting tu file mau
-echo %C_YLW%  3.%C_RST% Chuc nang: Tao rule thu cong
-echo %C_YLW%  4.%C_RST% Chuc nang: Cau hinh SmartHeading
-echo %C_YLW%  5.%C_RST% Chuc nang: Xem truoc va Dinh dang
-echo %C_YLW%  6.%C_RST% Chuc nang: Clone dinh dang
-echo %C_YLW%  7.%C_RST% Chuc nang: Tien ich
-echo %C_YLW%  8.%C_RST% Thong tin tac gia
+echo %C_YLW%  2.%C_RST% Hoc formatting tu file mau
+echo %C_YLW%  3.%C_RST% Tao rule thu cong
+echo %C_YLW%  4.%C_RST% Cau hinh SmartHeading
+echo %C_YLW%  5.%C_RST% Xem truoc va Dinh dang
+echo %C_YLW%  6.%C_RST% Clone dinh dang
+echo %C_GRY%--- AI ---%C_RST%
+echo %C_YLW%  7.%C_RST% AI Provider (API key, models)
+echo %C_YLW%  8.%C_RST% Dich thuat file Word
+echo %C_YLW%  9.%C_RST% Tao van ban bang AI
+echo %C_GRY%--- Tien ich ---%C_RST%
+echo %C_YLW% 10.%C_RST% Dem tu va trang
+echo %C_YLW% 11.%C_RST% Khoi tao / Reset du an
+echo %C_YLW% 12.%C_RST% Thong tin tac gia
 echo %C_RED%  0.%C_RST% Quay lai
 echo %C_GRY%--------------------------------------------%C_RST%
 echo.
-set /p SUB="%C_YLW%Nhap so (0-8): %C_RST%"
+set /p SUB="%C_YLW%Nhap so (0-12): %C_RST%"
 
 if "%SUB%"=="1" goto :about_gioithieu
 if "%SUB%"=="2" goto :about_learn
@@ -872,8 +878,12 @@ if "%SUB%"=="3" goto :about_makerule
 if "%SUB%"=="4" goto :about_smart
 if "%SUB%"=="5" goto :about_format
 if "%SUB%"=="6" goto :about_clone
-if "%SUB%"=="7" goto :about_tienich
-if "%SUB%"=="8" goto :about_tacgia
+if "%SUB%"=="7" goto :about_ai
+if "%SUB%"=="8" goto :about_translate
+if "%SUB%"=="9" goto :about_generate
+if "%SUB%"=="10" goto :about_count
+if "%SUB%"=="11" goto :about_initreset
+if "%SUB%"=="12" goto :about_tacgia
 if "%SUB%"=="0" goto :menu
 goto :about
 
@@ -884,25 +894,29 @@ echo %C_CYA%============================================%C_RST%
 echo %C_CYA%%C_BLD%     GIOI THIEU CHUNG                     %C_RST%
 echo %C_CYA%============================================%C_RST%
 echo.
-echo %C_YLW%  Ten ung dung:%C_RST% Auto-Format for Word
-echo %C_YLW%  Phien ban:%C_RST% 1.0
-echo %C_YLW%  Cong nghe:%C_RST% Python, python-docx, win32com
+echo %C_YLW%  Ten ung dung:%C_RST% Word Format Auto-Fixer (wordfix)
+echo %C_YLW%  Phien ban:%C_RST% 2.0
+echo %C_YLW%  Cong nghe:%C_RST% Python, python-docx, win32com, AI API
 echo.
-echo  %C_WHT%Ung dung giup nguoi dung dinh dang nhanh%C_RST%
-echo  %C_WHT%van ban Word (.doc/.docx) theo chuan mong muon%C_RST%
-echo  %C_WHT%ma khong can thao tac thu cong tung paragraph.%C_RST%
+echo  %C_WHT%Ung dung giup nguoi dung dinh dang, dich thuat,%C_RST%
+echo  %C_WHT%va tao van ban Word (.doc/.docx) toan dien,%C_RST%
+echo  %C_WHT%ho tro AI va nhieu provider.%C_RST%
 echo.
-echo %C_CYA%  Van de giai quyet:%C_RST%
-echo  %C_GRY%-%C_RST% Mat nhieu thoi gian format thu cong
-echo  %C_GRY%-%C_RST% Khong dong nhat font, size, spacing
-echo  %C_GRY%-%C_RST% Tieu de khong dung Heading style
-echo  %C_GRY%-%C_RST% Can ap dung dinh dang giong file mau
+echo %C_CYA%  Chuc nang chinh:%C_RST%
+echo  %C_GRY%-%C_RST% Dinh dang theo rule YAML (font, spacing, heading...)
+echo  %C_GRY%-%C_RST% SmartHeading: phat hien tieu de tu noi dung
+echo  %C_GRY%-%C_RST% Clone toan bo dinh dang tu file mau
+echo  %C_GRY%-%C_RST% Clone-preview: xem truoc truoc khi luu
+echo  %C_GRY%-%C_RST% Dem tu, ky tu, dong, trang, thoi gian doc
+echo  %C_GRY%-%C_RST% Dich file Word sang 19 ngon ngu bang AI
+echo  %C_GRY%-%C_RST% Tao van ban Word bang AI (19 loai van ban)
+echo  %C_GRY%-%C_RST% Quan ly nhieu AI provider + model
+echo  %C_GRY%-%C_RST% Khoi tao / Reset du an
 echo.
-echo %C_CYA%  Giai phap:%C_RST%
-echo  %C_GRY%-%C_RST% Hoc dinh dang tu file mau co san
-echo  %C_GRY%-%C_RST% Phat hien tieu de thong minh bang noi dung
-echo  %C_GRY%-%C_RST% Clone toan bo dinh dang (section, header, TOC...)
-echo  %C_GRY%-%C_RST% Ho tro ca .doc va .docx
+echo %C_CYA%  12 subcommands:%C_RST%
+echo  %C_GRY%format, preview, learn, clone, clone-preview,%C_RST%
+echo  %C_GRY%list-rules, count, translate, settings, generate,%C_RST%
+echo  %C_GRY%init, reset%C_RST%
 echo.
 pause
 goto :about
@@ -1075,33 +1089,166 @@ echo.
 pause
 goto :about
 
-:about_tienich
+:about_ai
 cls
 echo.
 echo %C_CYA%============================================%C_RST%
-echo %C_CYA%%C_BLD%     TIEN ICH                              %C_RST%
+echo %C_CYA%%C_BLD%     AI PROVIDER (API KEY, MODELS)        %C_RST%
 echo %C_CYA%============================================%C_RST%
 echo.
-echo %C_CYA%  --- Danh sach rules co san ---%C_RST%
-echo.
 echo %C_YLW%  Cong dung:%C_RST%
-echo  Xem tat ca file rule trong thu muc rules/.
+echo  Quan ly API key va model cho cac AI provider.
+echo.
+echo %C_YLW%  Provider ho tro:%C_RST%
+echo  %C_GRY%-%C_RST% OpenAI (GPT-4o, GPT-4o-mini, GPT-4-turbo...)
+echo  %C_GRY%-%C_RST% Google Gemini (2.5-flash, 2.0-flash, 1.5-pro...)
+echo  %C_GRY%-%C_RST% Anthropic Claude (Sonnet 4, 3.5 Sonnet, 3.5 Haiku...)
+echo  %C_GRY%-%C_RST% DeepSeek (deepseek-chat, deepseek-reasoner)
+echo  %C_GRY%-%C_RST% Custom API (tu nhap URL + key)
+echo.
+echo %C_YLW%  Chuc nang:%C_RST%
+echo  %C_GRY%-%C_RST% Multi-model moi provider
+echo  %C_GRY%-%C_RST% Chon model hoat dong
+echo  %C_GRY%-%C_RST% Kiem tra API key live (hop le/sai/het credit)
+echo  %C_GRY%-%C_RST% Them/sua/xoa custom API
 echo.
 echo %C_YLW%  Cach dung:%C_RST%
-echo  %C_GRY%1.%C_RST% Menu 3 - Tien ich -^> Chon 1
+echo  %C_GRY%1.%C_RST% Menu 4 - Cai dat -^> Chon 1
+echo  %C_GRY%2.%C_RST% Chon provider can cai dat
+echo  %C_GRY%3.%C_RST% Nhap API key, chon model
 echo.
-echo %C_CYA%  --- Chay unit tests ---%C_RST%
+pause
+goto :about
+
+:about_translate
+cls
+echo.
+echo %C_CYA%============================================%C_RST%
+echo %C_CYA%%C_BLD%     DICH THUAT FILE WORD                  %C_RST%
+echo %C_CYA%============================================%C_RST%
 echo.
 echo %C_YLW%  Cong dung:%C_RST%
-echo  Kiem tra tinh dung dan cua chuong trinh.
+echo  Dich toan bo noi dung file Word sang ngon ngu khac
+echo  bang AI, giu nguyen format (font, bold, heading...).
 echo.
-echo %C_YLW%  Loi ich:%C_RST%
-echo  %C_GRY%-%C_RST% Dam bao code hoat dong dung
-echo  %C_GRY%-%C_RST% Phat hien loi sau khi cap nhat
+echo %C_YLW%  Ngon ngu ho tro:%C_RST%
+echo  %C_GRY%vi, en, zh, ja, ko, fr, de, es, it, pt,%C_RST%
+echo  %C_GRY%ru, th, id, ms, ar, hi, tr, pl, nl%C_RST%
+echo  %C_GRY%(19 ngon ngu)%C_RST%
 echo.
 echo %C_YLW%  Cach dung:%C_RST%
-echo  %C_GRY%1.%C_RST% Menu 3 - Tien ich -^> Chon 2
-echo  %C_GRY%2.%C_RST% Xem ket qua: PASSED hoac FAILED
+echo  %C_GRY%1.%C_RST% Menu 3 - Tien ich -^> Chon 4
+echo  %C_GRY%2.%C_RST% Nhap file Word can dich
+echo  %C_GRY%3.%C_RST% Chon ngon ngu dich (VD: en, zh, ja)
+echo  %C_GRY%4.%C_RST% Chon AI provider
+echo  %C_GRY%5.%C_RST% Xem truoc va luu file dich
+echo.
+echo %C_YLW%  Luu y:%C_RST%
+echo  %C_GRY%-%C_RST% Can API key hop le (xem muc 7)
+echo  %C_GRY%-%C_RST% Batch 3000 ky tu/chunk, giu format goc
+echo.
+pause
+goto :about
+
+:about_generate
+cls
+echo.
+echo %C_CYA%============================================%C_RST%
+echo %C_CYA%%C_BLD%     TAO VAN BAN BANG AI                   %C_RST%
+echo %C_CYA%============================================%C_RST%
+echo.
+echo %C_YLW%  Cong dung:%C_RST%
+echo  AI hoi cau hoi de thu thap thong tin,
+echo  sau do tao van ban Word voi format chuan.
+echo.
+echo %C_YLW%  19 loai van ban:%C_RST%
+echo  %C_GRY%Don xin viec, don xin nghi phep, bao cao thuc tap,%C_RST%
+echo  %C_GRY%luan van tot nghiep, thu cam on, quyet dinh...%C_RST%
+echo.
+echo %C_YLW%  Quy trinh:%C_RST%
+echo  %C_GRY%1.%C_RST% Nhap loai van ban
+echo  %C_GRY%2.%C_RST% AI dat 5-10 cau hoi
+echo  %C_GRY%3.%C_RST% Ban tra loi tung cau hoi
+echo  %C_GRY%4.%C_RST% AI tao noi dung + format
+echo  %C_GRY%5.%C_RST% Luu thanh .docx
+echo.
+echo %C_YLW%  Cach dung:%C_RST%
+echo  %C_GRY%1.%C_RST% Menu 3 - Tien ich -^> Chon 5
+echo  %C_GRY%2.%C_RST% Nhap loai van ban
+echo  %C_GRY%3.%C_RST% Tra loi cac cau hoi
+echo  %C_GRY%4.%C_RST% Xem truoc va luu
+echo.
+pause
+goto :about
+
+:about_count
+cls
+echo.
+echo %C_CYA%============================================%C_RST%
+echo %C_CYA%%C_BLD%     DEM TU VA TRANG                       %C_RST%
+echo %C_CYA%============================================%C_RST%
+echo.
+echo %C_YLW%  Cong dung:%C_RST%
+echo  Dem chi tiet cac thong so cua file Word.
+echo.
+echo %C_YLW%  Thong so dem duoc:%C_RST%
+echo  %C_GRY%-%C_RST% So doan van (paragraphs)
+echo  %C_GRY%-%C_RST% So dong (lines)
+echo  %C_GRY%-%C_RST% So tu (words)
+echo  %C_GRY%-%C_RST% Ky tu co/khong dau cach
+echo  %C_GRY%-%C_RST% So trang (thuc te qua Word COM)
+echo  %C_GRY%-%C_RST% Thoi gian doc (tieng Viet/Tieng Anh)
+echo  %C_GRY%-%C_RST% Ngon ngu phat hien
+echo  %C_GRY%-%C_RST% Cau truc headings
+echo.
+echo %C_YLW%  Cach dung:%C_RST%
+echo  %C_GRY%1.%C_RST% Menu 3 - Tien ich -^> Chon 3
+echo  %C_GRY%2.%C_RST% Nhap file Word
+echo  %C_GRY%3.%C_RST% Xem ket qua chi tiet
+echo.
+pause
+goto :about
+
+:about_initreset
+cls
+echo.
+echo %C_CYA%============================================%C_RST%
+echo %C_CYA%%C_BLD%     KHOI TAO / RESET DU AN                %C_RST%
+echo %C_CYA%============================================%C_RST%
+echo.
+echo %C_CYA%  --- Khoi tao (init) ---%C_RST%
+echo.
+echo %C_YLW%  Cong dung:%C_RST%
+echo  Tao thu muc va file can thiet khi clone ve may moi.
+echo.
+echo %C_YLW%  Thuc hien:%C_RST%
+echo  %C_GRY%-%C_RST% Tao thu muc: config, outputs, mau, rules
+echo  %C_GRY%-%C_RST% Copy ai_keys_template.yaml -^> ai_keys.yaml
+echo  %C_GRY%-%C_RST% Tao .gitkeep trong outputs/
+echo.
+echo %C_YLW%  Cach dung:%C_RST%
+echo  %C_GRY%python src/main.py init%C_RST%
+echo  hoac Menu 4 -^> Chon 2
+echo.
+echo %C_CYA%  --- Reset ---%C_RST%
+echo.
+echo %C_YLW%  Cong dung:%C_RST%
+echo  Xoa du lieu nguoi dung, giu nguyen file mac dinh.
+echo.
+echo %C_YLW%  Du lieu bi xoa:%C_RST%
+echo  %C_GRY%-%C_RST% config/ai_keys.yaml (API keys)
+echo  %C_GRY%-%C_RST% outputs/ (file dau ra)
+echo  %C_GRY%-%C_RST% rules/learned_rules.yaml
+echo  %C_GRY%-%C_RST% rules/custom_rules.yaml
+echo  %C_GRY%-%C_RST% rules/smart_patterns.yaml
+echo.
+echo %C_YLW%  Du lieu giu nguyen:%C_RST%
+echo  %C_GRY%-%C_RST% rules/default.yaml, academic.yaml
+echo  %C_GRY%-%C_RST% mau/, src/, tests/, run.bat...
+echo.
+echo %C_YLW%  Cach dung:%C_RST%
+echo  %C_GRY%python src/main.py reset%C_RST%
+echo  hoac Menu 3 -^> Chon 6, hoac Menu 4 -^> Chon 3
 echo.
 pause
 goto :about
@@ -1117,11 +1264,14 @@ echo  %C_YLW%Tac gia:%C_RST% Le Huynh Ngoc
 echo.
 echo  %C_YLW%Nam phat trien:%C_RST% 2026
 echo.
-echo  Ung dung duoc phat trien nham giup nguoi
-echo  dung dinh dang van ban Word mot cach nhanh
-echo  chong va chuan xac.
+echo  %C_YLW%GitHub:%C_RST% https://github.com/Lehuynh-Ngoc
 echo.
-echo  %C_GRY%Lien he: (cap nhat sau)%C_RST%
+echo  Ung dung duoc phat trien nham giup nguoi
+echo  dung dinh dang, dich thuat, va tao van ban
+echo  Word mot cach nhanh chong voi ho tro AI.
+echo.
+echo  %C_GRY%12 subcommands | 5 AI providers | 19 ngon ngu%C_RST%
+echo  %C_GRY%19 loai van ban | 7 unit tests%C_RST%
 echo.
 pause
 goto :about
