@@ -66,6 +66,9 @@ def build_parser() -> argparse.ArgumentParser:
     gen = sub.add_parser("generate", help="Tao van ban Word bang AI — AI hoi cau hoi, ban tra loi, AI tao van ban")
     gen.add_argument("-o", "--output", help="Duong dan file dau ra")
 
+    sub.add_parser("init", help="Khoi tao du an — tao thu muc, copy config mac dinh")
+    sub.add_parser("reset", help="Reset ve trang thai mac dinh — xoa API keys, rules hoc, file dau ra")
+
     return parser
 
 
@@ -267,6 +270,32 @@ def run(args_list: list = None):
     if args.command == "generate":
         from src.cli.doc_generator_cli import run as generate_run
         generate_run()
+        return
+
+    if args.command == "init":
+        from src.core.init_reset import init_project
+        dirs, files = init_project()
+        if not dirs and not files:
+            logger.info("Du an da duoc khoi tao day du.")
+        else:
+            for d in dirs:
+                logger.info(f"Tao thu muc: {d}/")
+            for f in files:
+                logger.info(f"Tao file: {f}")
+            logger.info("Khoi tao hoan tat!")
+        return
+
+    if args.command == "reset":
+        from src.core.init_reset import reset_project
+        deleted, kept = reset_project()
+        if not deleted:
+            logger.info("Khong co gi de reset.")
+        else:
+            logger.warning("=== RESET DU AN ===")
+            for f in deleted:
+                logger.info(f"Xoa: {f}")
+            logger.info(f"Giu nguyen: {', '.join(kept)}")
+            logger.info("Reset hoan tat! Chay 'init' neu can khoi tao lai.")
         return
 
     if args.command == "preview":
