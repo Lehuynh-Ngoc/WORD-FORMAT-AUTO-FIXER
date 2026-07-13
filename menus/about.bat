@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 
-set "ESC="
+for /F %%a in ('echo prompt $E ^| cmd') do set "ESC=%%a"
 set "C_CYA=%ESC%[36m"
 set "C_YLW=%ESC%[33m"
 set "C_GRN=%ESC%[32m"
