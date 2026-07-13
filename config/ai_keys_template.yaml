@@ -1,0 +1,5 @@
+# AI Provider Configuration
+# This is a template. The app will use this as default when ai_keys.yaml doesn't exist.
+# API keys are stored in ai_keys.yaml (not tracked by git for security).
+
+providers: {}

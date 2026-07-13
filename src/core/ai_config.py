@@ -10,6 +10,7 @@ logger = logging.getLogger("wordfix")
 
 CONFIG_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "config")
 AI_CONFIG_FILE = os.path.join(CONFIG_DIR, "ai_keys.yaml")
+AI_CONFIG_TEMPLATE = os.path.join(CONFIG_DIR, "ai_keys_template.yaml")
 
 
 class APIStatus(Enum):
@@ -87,7 +88,12 @@ def _models_from_list(names: List[str], active: str = "") -> List[ModelInfo]:
 
 def _load_config() -> Dict[str, Any]:
     if not os.path.exists(AI_CONFIG_FILE):
-        return {}
+        if os.path.exists(AI_CONFIG_TEMPLATE):
+            os.makedirs(CONFIG_DIR, exist_ok=True)
+            import shutil
+            shutil.copy2(AI_CONFIG_TEMPLATE, AI_CONFIG_FILE)
+        else:
+            return {}
     with open(AI_CONFIG_FILE, encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
