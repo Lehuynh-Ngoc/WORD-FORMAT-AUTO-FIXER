@@ -109,11 +109,10 @@ def count_document(input_path: str) -> CountResult:
 
         all_text_parts.append(text)
 
-        for run in para.runs:
-            style = para.style_name or ""
-            if style.startswith("Heading"):
-                level = style
-                result.headings[level] = result.headings.get(level, 0) + 1
+        # Dem heading o day (ngoai vong lap runs) — moi paragraph chi dem 1 lan
+        style = para.style_name or ""
+        if style.startswith("Heading"):
+            result.headings[style] = result.headings.get(style, 0) + 1
 
     full_text = "\n".join(all_text_parts)
     result.languages_detected = _detect_languages(full_text)
