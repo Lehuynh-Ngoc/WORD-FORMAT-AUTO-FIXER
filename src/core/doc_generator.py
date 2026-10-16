@@ -34,10 +34,9 @@ def _call_ai(provider: ProviderConfig, system_prompt: str, user_prompt: str) -> 
         return _call_gemini(provider, system_prompt, user_prompt)
     elif provider.name == "claude":
         return _call_claude(provider, system_prompt, user_prompt)
-    elif provider.name == "custom":
-        return _call_openai_compat(provider, system_prompt, user_prompt)
     else:
-        raise ValueError(f"Unsupported provider: {provider.name}")
+        # Moi custom provider (ten tuy y) deu dung OpenAI-compatible API
+        return _call_openai_compat(provider, system_prompt, user_prompt)
 
 
 def _call_openai_compat(provider: ProviderConfig, system_prompt: str, user_prompt: str) -> str:
@@ -199,6 +198,9 @@ def save_as_docx(title: str, content_markdown: str, output_path: str) -> str:
     from docx.shared import Pt, Cm
     from docx.enum.text import WD_ALIGN_PARAGRAPH
 
+    import re as _re
+    heading_re = _re.compile(r'^(#{1,4})\s+(.*)$')
+
     doc = Document()
 
     style = doc.styles["Normal"]
@@ -220,8 +222,10 @@ def save_as_docx(title: str, content_markdown: str, output_path: str) -> str:
             i += 1
             continue
 
-        if line.startswith("# ") and not line.startswith("## "):
-            heading_text = line.lstrip("# ").strip()
+        heading_match = heading_re.match(line)
+
+        if heading_match and len(heading_match.group(1)) == 1:
+            heading_text = heading_match.group(2).strip()
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run(heading_text)
@@ -231,8 +235,8 @@ def save_as_docx(title: str, content_markdown: str, output_path: str) -> str:
             p.paragraph_format.space_before = Pt(12)
             p.paragraph_format.space_after = Pt(12)
 
-        elif line.startswith("## "):
-            heading_text = line.lstrip("# ").strip()
+        elif heading_match and len(heading_match.group(1)) == 2:
+            heading_text = heading_match.group(2).strip()
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.LEFT
             run = p.add_run(heading_text)
@@ -242,8 +246,8 @@ def save_as_docx(title: str, content_markdown: str, output_path: str) -> str:
             p.paragraph_format.space_before = Pt(12)
             p.paragraph_format.space_after = Pt(6)
 
-        elif line.startswith("### "):
-            heading_text = line.lstrip("# ").strip()
+        elif heading_match:
+            heading_text = heading_match.group(2).strip()
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.LEFT
             run = p.add_run(heading_text)
@@ -254,7 +258,7 @@ def save_as_docx(title: str, content_markdown: str, output_path: str) -> str:
             p.paragraph_format.space_after = Pt(3)
 
         elif line.startswith("- "):
-            bullet_text = line.lstrip("- ").strip()
+            bullet_text = line[2:].strip()
             p = doc.add_paragraph(style="List Bullet")
             run = p.add_run(bullet_text)
             run.font.name = "Times New Roman"

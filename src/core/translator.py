@@ -32,7 +32,6 @@ LANGUAGES = {
     "th": "Tieng Thai",
     "id": "Tieng Indonesian",
     "ms": "Tieng Malaysia",
-    "ko": "Tieng Han",
     "it": "Tieng Y",
     "nl": "Tieng Ha Lan",
     "sv": "Tieng Thuy Dien",
@@ -55,10 +54,15 @@ class TranslateResult:
 
 
 def _call_api(provider: ProviderConfig, text: str, target_lang: str, source_lang: str = "") -> str:
+    system_prompt = _build_translate_prompt(target_lang, source_lang)
+    return _call_with_prompt(provider, system_prompt, text)
+
+
+def _build_translate_prompt(target_lang: str, source_lang: str = "") -> str:
     lang_name = LANGUAGES.get(target_lang, target_lang)
     source_hint = f" from {LANGUAGES.get(source_lang, source_lang)}" if source_lang else ""
 
-    system_prompt = (
+    return (
         f"You are a professional translator. Translate the following text to {lang_name}{source_hint}. "
         f"Rules:\n"
         f"- Translate ONLY the text, do not add explanations\n"
@@ -67,6 +71,8 @@ def _call_api(provider: ProviderConfig, text: str, target_lang: str, source_lang
         f"- Return ONLY the translated text, nothing else\n"
     )
 
+
+def _call_with_prompt(provider: ProviderConfig, system_prompt: str, text: str) -> str:
     if provider.name == "openai":
         return _call_openai(provider, system_prompt, text)
     elif provider.name == "gemini":
@@ -75,10 +81,9 @@ def _call_api(provider: ProviderConfig, text: str, target_lang: str, source_lang
         return _call_claude(provider, system_prompt, text)
     elif provider.name == "deepseek":
         return _call_deepseek(provider, system_prompt, text)
-    elif provider.name == "custom":
-        return _call_custom(provider, system_prompt, text)
     else:
-        raise ValueError(f"Unsupported provider: {provider.name}")
+        # Moi custom provider (ten tuy y) deu dung OpenAI-compatible API
+        return _call_custom(provider, system_prompt, text)
 
 
 def _call_openai(provider: ProviderConfig, system_prompt: str, user_text: str) -> str:
@@ -242,9 +247,10 @@ def translate_document(
 
     for idx, text in paragraphs_to_translate:
         if current_len + len(text) > CHUNK_SIZE and batch:
-            translated = _translate_batch(provider, batch, target_lang, source_lang)
+            translated, errs = _translate_batch(provider, batch, target_lang, source_lang)
             for bi, t in zip(batch_indices, translated):
                 translated_map[bi] = t
+            result.errors += errs
             batch = []
             batch_indices = []
             current_len = 0
@@ -254,9 +260,10 @@ def translate_document(
         current_len += len(text)
 
     if batch:
-        translated = _translate_batch(provider, batch, target_lang, source_lang)
+        translated, errs = _translate_batch(provider, batch, target_lang, source_lang)
         for bi, t in zip(batch_indices, translated):
             translated_map[bi] = t
+        result.errors += errs
 
     for idx, translated_text in translated_map.items():
         if idx < len(doc.paragraphs):
@@ -290,7 +297,7 @@ def _translate_batch(
     texts: List[str],
     target_lang: str,
     source_lang: str = "",
-) -> List[str]:
+) -> Tuple[List[str], int]:
     separator = "\n===PARA_SEP===\n"
     combined = separator.join(texts)
 
@@ -308,16 +315,16 @@ def _translate_batch(
     )
 
     try:
-        result_text = _call_api(provider, combined, target_lang, source_lang)
+        result_text = _call_with_prompt(provider, system_prompt, combined)
     except Exception as e:
         logger.error(f"API call failed: {e}")
-        return texts
+        return texts, len(texts)
 
     parts = result_text.split("===PARA_SEP===")
     parts = [p.strip() for p in parts]
 
     if len(parts) == len(texts):
-        return parts
+        return parts, 0
 
     logger.warning(
         f"Batch response count mismatch: expected {len(texts)}, got {len(parts)}. "
@@ -331,8 +338,9 @@ def _translate_individual(
     texts: List[str],
     target_lang: str,
     source_lang: str = "",
-) -> List[str]:
+) -> Tuple[List[str], int]:
     results = []
+    errors = 0
     for i, text in enumerate(texts):
         try:
             translated = _call_api(provider, text, target_lang, source_lang)
@@ -341,7 +349,8 @@ def _translate_individual(
         except Exception as e:
             logger.error(f"Failed to translate paragraph {i+1}: {e}")
             results.append(text)
-    return results
+            errors += 1
+    return results, errors
 
 
 def get_supported_languages() -> dict:
