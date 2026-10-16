@@ -25,6 +25,33 @@ def _pt_to_emu(value: float) -> int:
     return int(value * 12700)
 
 
+def iter_document_paragraphs(doc):
+    """Yield moi paragraph theo dung thu tu document — gom ca paragraph trong bang (table).
+
+    Duyet truc tiep XML body de giu thu tu that (doan - bang - doan...),
+    vi doc.paragraphs chi tra ve cac doan o cap body.
+    Cell merge (ngang/doc) co the xuat hien nhieu lan trong row.cells — dedup bang
+    id(cell._tc) de khong doc/trung ghi 2 lan.
+    """
+    from docx.table import Table
+    from docx.text.paragraph import Paragraph
+
+    for child in doc.element.body.iterchildren():
+        tag = child.tag
+        if tag.endswith("}p"):
+            yield Paragraph(child, doc)
+        elif tag.endswith("}tbl"):
+            table = Table(child, doc)
+            for row in table.rows:
+                seen = set()
+                for cell in row.cells:
+                    if id(cell._tc) in seen:
+                        continue
+                    seen.add(id(cell._tc))
+                    for para in cell.paragraphs:
+                        yield para
+
+
 class DocxParser(BaseParser):
     def can_handle(self, path: str) -> bool:
         ext = os.path.splitext(path)[1].lower()
@@ -35,11 +62,12 @@ class DocxParser(BaseParser):
         result = ParsedDocument(path)
         result.document = doc
 
-        for para in doc.paragraphs:
+        for para in iter_document_paragraphs(doc):
             pp = ParsedParagraph(
                 style_name=para.style.name if para.style else "",
                 text=para.text,
             )
+            pp.source = para  # giu tham chiếu de save() ghi dung cho (gồm table)
 
             pf = para.paragraph_format
             if pf.alignment:
@@ -70,10 +98,17 @@ class DocxParser(BaseParser):
     def save(self, doc: ParsedDocument, output_path: str):
         document = doc.document or Document()
 
+        # Thu tu paragraph nhu khi read (gồm table) — dung cho fallback khi khong co source
+        all_paras = list(iter_document_paragraphs(document))
+
         for i, pp in enumerate(doc.paragraphs):
-            if i >= len(document.paragraphs):
-                break
-            para = document.paragraphs[i]
+            # uu tien tham chiếu source (dung cho ca paragraph trong table),
+            # fallback theo thu tu neu parser khac tao ParsedDocument thu cong
+            para = getattr(pp, "source", None)
+            if para is None:
+                if i >= len(all_paras):
+                    break
+                para = all_paras[i]
 
             try:
                 if pp.style_name and pp.style_name != para.style.name:
@@ -93,6 +128,15 @@ class DocxParser(BaseParser):
                 pf.space_after = _pt_to_emu(pp.space_after)
             if pp.first_line_indent is not None:
                 pf.first_line_indent = _pt_to_emu(pp.first_line_indent)
+
+            # Ghi tro lai text neu bi sua (vi du: dich thuac) — truoc day save()
+            # chi ghi style/font, lam cho translate ra file giong nhu ban dau.
+            if len(para.runs) == len(pp.runs):
+                for run, pr in zip(para.runs, pp.runs):
+                    if pr.text != run.text:
+                        run.text = pr.text
+            elif pp.text and pp.text != para.text:
+                para.text = pp.text
 
             for j, pr in enumerate(pp.runs):
                 if j >= len(para.runs):

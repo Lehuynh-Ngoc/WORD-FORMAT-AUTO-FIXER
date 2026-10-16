@@ -20,6 +20,7 @@ class ParsedParagraph:
         self.space_before: Optional[float] = None
         self.space_after: Optional[float] = None
         self.first_line_indent: Optional[float] = None
+        self.source = None  # tham chiếu paragraph goc (python-docx) neu co
 
 
 class ParsedRun:
