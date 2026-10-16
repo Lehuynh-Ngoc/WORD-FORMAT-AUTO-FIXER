@@ -186,4 +186,4 @@ python -m pytest tests/ -v
 ```bash
 python -m pytest tests/ -v --no-header --override-ini="addopts="
 ```
-7 tests: rule parsing, conditions, config loader, engine init.
+44 tests: rule parsing, conditions, config loader, engine init, ai_config (delete/repair/duplicate), translator (routing, batch prompt, errors), counter (headings, tu/ky tu), docx parser (table, thu tu, text write-back), learner, doc_generator (markdown headings).
