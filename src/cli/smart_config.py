@@ -174,6 +174,7 @@ def run():
                 print(f"  {WHT}{ex[0]:35s}{RST} -> {CYA}{ex[1]:15s}{RST} {GRY}({ex[2]}){RST}")
             print()
             if input(f"  {YLW}Them mau nay? (y/N): {RST}").strip().lower() == "y":
+                added = 0
                 for ex in BUILTIN_EXAMPLES:
                     exists = any(p["pattern"] == ex[0] for p in patterns)
                     if not exists:
@@ -182,8 +183,9 @@ def run():
                             "pattern": ex[0],
                             "style": ex[1],
                         })
+                        added += 1
                         print(f"  {GRN}[OK]{RST} Da them: {WHT}{ex[0]}{RST} -> {CYA}{ex[1]}{RST}")
-                else:
+                if added == 0:
                     print(f"  {GRY}(tat ca da ton tai){RST}")
             input(f"\n  {GRY}Enter de tiep tuc...{RST}")
 
@@ -192,9 +194,12 @@ def run():
             print()
             inp = input(f"  {YLW}Nhap file Word de preview{RST} {GRY}(Enter = bo qua){RST}: ").strip()
             if inp:
-                os.system(
-                    f'python src\\main.py preview "{inp}" -r rules/smart_patterns.yaml'
-                )
+                import subprocess
+                import sys
+                subprocess.call([
+                    sys.executable, os.path.join("src", "main.py"),
+                    "preview", inp, "-r", "rules/smart_patterns.yaml",
+                ])
             input(f"\n  {GRY}Enter de tiep tuc...{RST}")
 
         elif choice == "0":

@@ -61,7 +61,7 @@ def init_project() -> Tuple[List[str], List[str]]:
     return created_dirs, created_files
 
 
-def reset_project(confirm: bool = True) -> Tuple[List[str], List[str]]:
+def reset_project() -> Tuple[List[str], List[str]]:
     deleted_files = []
     kept_files = []
 

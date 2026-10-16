@@ -67,7 +67,12 @@ def build_parser() -> argparse.ArgumentParser:
     gen.add_argument("-o", "--output", help="Duong dan file dau ra")
 
     sub.add_parser("init", help="Khoi tao du an — tao thu muc, copy config mac dinh")
-    sub.add_parser("reset", help="Reset ve trang thai mac dinh — xoa API keys, rules hoc, file dau ra")
+    reset = sub.add_parser("reset", help="Reset ve trang thai mac dinh — xoa API keys, rules hoc, file dau ra")
+    reset.add_argument(
+        "-y", "--yes",
+        action="store_true",
+        help="Xac nhan tu dong, khong hoi nua",
+    )
 
     return parser
 
@@ -76,6 +81,14 @@ def run(args_list: list = None):
     from src.utils.logger import setup_logger
     from src.core.config import ConfigLoader
     from src.core.engine import FormatEngine
+
+    # Console cp1252 (Windows) khong encode duoc tieng Viet -> thay the ky tu la loi
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            if stream and stream.encoding and stream.encoding.lower().replace("-", "") != "utf8":
+                stream.reconfigure(errors="replace")
+        except Exception:
+            pass
 
     parser = build_parser()
     args = parser.parse_args(args_list)
@@ -286,16 +299,41 @@ def run(args_list: list = None):
         return
 
     if args.command == "reset":
-        from src.core.init_reset import reset_project
-        deleted, kept = reset_project()
-        if not deleted:
+        from src.core.init_reset import reset_project, _abs
+        import glob as _glob
+
+        will_delete = []
+        for pattern in [
+            "config/ai_keys.yaml",
+            "outputs/*",
+            "rules/learned_rules.yaml",
+            "rules/custom_rules.yaml",
+            "rules/smart_patterns.yaml",
+        ]:
+            for match in _glob.glob(_abs(pattern)):
+                if os.path.isfile(match):
+                    will_delete.append(os.path.relpath(match))
+
+        if not will_delete:
             logger.info("Khong co gi de reset.")
-        else:
-            logger.warning("=== RESET DU AN ===")
-            for f in deleted:
-                logger.info(f"Xoa: {f}")
-            logger.info(f"Giu nguyen: {', '.join(kept)}")
-            logger.info("Reset hoan tat! Chay 'init' neu can khoi tao lai.")
+            return
+
+        logger.warning("=== RESET DU AN — cac file se bi XOA ===")
+        for f in will_delete:
+            logger.warning(f"  - {f}")
+
+        if not args.yes:
+            confirm = input("  Xac nhan reset? (y/N): ").strip().lower()
+            if confirm not in ("y", "yes"):
+                logger.info("Huy reset. Khong co gi thay doi.")
+                return
+
+        deleted, kept = reset_project()
+        logger.info("=== RESET DU AN ===")
+        for f in deleted:
+            logger.info(f"Xoa: {f}")
+        logger.info(f"Giu nguyen: {', '.join(kept)}")
+        logger.info("Reset hoan tat! Chay 'init' neu can khoi tao lai.")
         return
 
     if args.command == "preview":
@@ -334,7 +372,14 @@ def run(args_list: list = None):
     else:
         logger.info(f"Output: {output}")
 
-    reporter = engine.format(args.input, output, rules, dry_run=args.dry_run)
+    try:
+        reporter = engine.format(args.input, output, rules, dry_run=args.dry_run)
+    except Exception as e:
+        logger.error(f"Format failed: {e}")
+        if args.verbose:
+            import traceback
+            traceback.print_exc()
+        sys.exit(1)
 
     print("\n" + reporter.summary())
 

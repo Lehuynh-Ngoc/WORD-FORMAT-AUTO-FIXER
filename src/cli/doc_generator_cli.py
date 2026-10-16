@@ -123,10 +123,10 @@ def run():
     print()
     preview_lines = content.split("\n")[:30]
     for line in preview_lines:
-        if line.startswith("#"):
-            print(f"  {BLD}{line}{RST}")
-        elif line.startswith("##"):
+        if line.startswith("##"):
             print(f"  {CYA}{line}{RST}")
+        elif line.startswith("#"):
+            print(f"  {BLD}{line}{RST}")
         elif line.strip():
             print(f"  {line}")
     if len(content.split("\n")) > 30:

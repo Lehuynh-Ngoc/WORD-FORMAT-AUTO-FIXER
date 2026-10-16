@@ -18,7 +18,7 @@ class DocParser(BaseParser):
             tempfile.gettempdir(),
             f"~wordfix_{os.path.basename(path)}"
         )
-        self._temp_path = tmp_copy.replace(".doc", ".docx").replace(".DOC", ".docx")
+        self._temp_path = os.path.splitext(tmp_copy)[0] + ".docx"
 
         word = None
         try:

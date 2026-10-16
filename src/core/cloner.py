@@ -106,7 +106,8 @@ class CloneEngine:
         output_ext = os.path.splitext(abs_output)[1].lower()
         save_format = WD_FORMATS.get(output_ext, 12)
 
-        tmp_clean = tempfile.mktemp(suffix=template_ext)
+        fd, tmp_clean = tempfile.mkstemp(suffix=template_ext)
+        os.close(fd)
 
         pythoncom.CoInitialize()
         word = None

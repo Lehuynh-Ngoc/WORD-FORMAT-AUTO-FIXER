@@ -65,7 +65,7 @@ def _pick_provider(prompt: str = "Chon provider"):
         choice = int(input(f"  {YLW}{prompt} (0-{len(names)}): {RST}"))
     except (ValueError, EOFError):
         return None
-    if choice == 0 or choice > len(names):
+    if choice < 1 or choice > len(names):
         return None
     return names[choice - 1]
 
@@ -137,7 +137,7 @@ def _menu_quick_select_model():
         choice = int(input(f"  {YLW}Chon model: {RST}"))
     except (ValueError, EOFError):
         return
-    if choice == 0 or choice > len(p.models):
+    if choice < 1 or choice > len(p.models):
         return
 
     model_name = p.models[choice - 1].name
@@ -281,7 +281,7 @@ def _menu_provider_detail():
                 c = int(input(f"  {YLW}Chon model can doi ten (0 = huy): {RST}"))
             except (ValueError, EOFError):
                 continue
-            if c == 0 or c > len(p.models):
+            if c < 1 or c > len(p.models):
                 continue
             old_name = p.models[c - 1].name
             new_name = input(f"  {CYA}Ten moi cho '{old_name}': {RST}").strip()
@@ -302,7 +302,7 @@ def _menu_provider_detail():
                 c = int(input(f"  {YLW}Chon model can xoa (0 = huy): {RST}"))
             except (ValueError, EOFError):
                 continue
-            if c == 0 or c > len(p.models):
+            if c < 1 or c > len(p.models):
                 continue
             model_name = p.models[c - 1].name
             confirm = input(f"  {RED}Xac nhan xoa '{model_name}'? (y/N): {RST}").strip().lower()
@@ -384,7 +384,7 @@ def _menu_delete_custom():
         c = int(input(f"  {YLW}Chon: {RST}"))
     except (ValueError, EOFError):
         return
-    if c == 0 or c > len(names):
+    if c < 1 or c > len(names):
         return
 
     sel_name = names[c - 1]
