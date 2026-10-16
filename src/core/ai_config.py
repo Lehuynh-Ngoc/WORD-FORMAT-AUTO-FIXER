@@ -86,6 +86,28 @@ def _models_from_list(names: List[str], active: str = "") -> List[ModelInfo]:
     return [ModelInfo(name=n, is_active=(n == active)) for n in names]
 
 
+class _ModelInfoSafeLoader(yaml.SafeLoader):
+    """SafeLoader bo sung xu ly tag !!python/object:...ModelInfo (config bi hong tu version cu)."""
+
+
+def _modelinfo_constructor(loader, node):
+    values = loader.construct_mapping(node, deep=True)
+    return {
+        "name": values.get("name", ""),
+        "is_active": values.get("is_active", False),
+    }
+
+
+_ModelInfoSafeLoader.add_constructor(
+    "tag:yaml.org,2002:python/object:src.core.ai_config.ModelInfo",
+    _modelinfo_constructor,
+)
+_ModelInfoSafeLoader.add_constructor(
+    "tag:yaml.org,2002:python/object:__main__.ModelInfo",
+    _modelinfo_constructor,
+)
+
+
 def _load_config() -> Dict[str, Any]:
     if not os.path.exists(AI_CONFIG_FILE):
         if os.path.exists(AI_CONFIG_TEMPLATE):
@@ -95,7 +117,18 @@ def _load_config() -> Dict[str, Any]:
         else:
             return {}
     with open(AI_CONFIG_FILE, encoding="utf-8") as f:
-        return yaml.safe_load(f) or {}
+        raw = f.read()
+    try:
+        return yaml.safe_load(raw) or {}
+    except yaml.constructor.ConstructorError:
+        logger.warning(
+            f"Config {AI_CONFIG_FILE} chua tag khong hop le (likely ModelInfo object). "
+            "Dang tu repair..."
+        )
+        data = yaml.load(raw, Loader=_ModelInfoSafeLoader) or {}
+        _save_config(data)
+        logger.info("Da repair config file thanh cong.")
+        return data
 
 
 def _save_config(data: Dict[str, Any]):
@@ -195,16 +228,21 @@ def save_provider(provider: ProviderConfig):
     _save_config(config)
 
 
+def _models_to_dicts(models: List[ModelInfo]) -> List[dict]:
+    return [{"name": m.name, "is_active": m.is_active} for m in models]
+
+
 def delete_provider(name: str) -> bool:
     config = _load_config()
     providers = config.get("providers", {})
     if name not in providers:
         return False
     if name in DEFAULT_MODELS:
+        default_models = DEFAULT_MODELS.get(name, [])
         providers[name] = {
             "api_key": "",
             "base_url": DEFAULT_BASE_URLS.get(name, ""),
-            "models": _models_from_list(DEFAULT_MODELS.get(name, []), DEFAULT_MODELS[name][0]) if DEFAULT_MODELS.get(name) else [],
+            "models": _models_to_dicts(_models_from_list(default_models, default_models[0])) if default_models else [],
             "status": "unchecked",
             "last_checked": "",
             "credit_info": "",
@@ -223,6 +261,8 @@ def add_custom_provider(name: str, display_name: str, base_url: str,
     providers = config.get("providers", {})
     if name in DEFAULT_MODELS:
         raise ValueError(f"Ten '{name}' da ton tai. Hay chon ten khac.")
+    if name in providers:
+        raise ValueError(f"Custom provider '{name}' da ton tai. Hay chon ten khac.")
     models = _models_from_list([model] if model else ["default"], model or "default")
     p = ProviderConfig(
         name=name,
